@@ -21,3 +21,7 @@ mBtnCovert.setOnClickListener(new View.OnClickListener() {
 ## ScreenShot
 
 ![Samples](art/demo.gif)
+
+## Thanks
+
+[luckyandyzhang/MentionEditText](https://github.com/luckyandyzhang/MentionEditText)
