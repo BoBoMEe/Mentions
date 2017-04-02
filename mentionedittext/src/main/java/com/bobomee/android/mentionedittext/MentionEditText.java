@@ -89,32 +89,28 @@ public class MentionEditText extends AppCompatEditText {
     }
 
     //if user cancel a selection of mention string, reset the state of 'mIsSelected'
-    Range closestRange = null;
     if (null != mRangeListenerManager) {
-      closestRange = mRangeListenerManager.getRangeOfClosestMentionString(selStart, selEnd);
-    }
-    if (closestRange != null && closestRange.getTo() == selEnd) {
-      mIsSelected = false;
-    }
-
-    Range nearbyRange = null;
-    if (null != mRangeListenerManager) {
-      nearbyRange = mRangeListenerManager.getRangeOfNearbyMentionString(selStart, selEnd);
-    }
-    //if there is no mention string nearby the cursor, just skip
-    if (nearbyRange == null) {
-      return;
-    }
-
-    //forbid cursor located in the mention string.
-    if (selStart == selEnd) {
-      setSelection(nearbyRange.getAnchorPosition(selStart));
-    } else {
-      if (selEnd < nearbyRange.getTo()) {
-        setSelection(selStart, nearbyRange.getTo());
+      Range closestRange = mRangeListenerManager.getRangeOfClosestMentionString(selStart, selEnd);
+      if (closestRange != null && closestRange.getTo() == selEnd) {
+        mIsSelected = false;
       }
-      if (selStart > nearbyRange.getFrom()) {
-        setSelection(nearbyRange.getFrom(), selEnd);
+
+      Range nearbyRange = mRangeListenerManager.getRangeOfNearbyMentionString(selStart, selEnd);
+      //if there is no mention string nearby the cursor, just skip
+      if (nearbyRange == null) {
+        return;
+      }
+
+      //forbid cursor located in the mention string.
+      if (selStart == selEnd) {
+        setSelection(nearbyRange.getAnchorPosition(selStart));
+      } else {
+        if (selEnd < nearbyRange.getTo()) {
+          setSelection(selStart, nearbyRange.getTo());
+        }
+        if (selStart > nearbyRange.getFrom()) {
+          setSelection(nearbyRange.getFrom(), selEnd);
+        }
       }
     }
   }
