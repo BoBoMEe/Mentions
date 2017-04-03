@@ -19,7 +19,7 @@
       >
 
 
-    <com.bobomee.android.mentionedittext.MentionEditText
+    <com.bobomee.android.mentions.edit.MentionEditText
         android:id="@+id/mentionedittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,6 +31,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="获取源字符串"
+        android:textSize="15sp"
+        />
+    <Button
+        android:id="@+id/btn_covert_to_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="转换成富文本"
         android:textSize="15sp"
         />
     <Button
@@ -46,6 +54,13 @@
         android:id="@+id/coverted_string"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        />
+
+
+    <com.bobomee.android.mentions.text.MentionTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/mentiontext"
         />
   </LinearLayout>
 

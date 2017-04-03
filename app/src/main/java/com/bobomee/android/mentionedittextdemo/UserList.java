@@ -65,7 +65,7 @@ public class UserList extends AppCompatActivity {
   private List<User> provideData() {
     List<User> result = new ArrayList<>();
     for (int i = 0; i < 50; i++) {
-      User user = new User("userid--> " + i, "user--> " + i);
+      User user = new User("id" + i, "name" + i);
       user.setUserSex(i % 2 == 0 ? "男" : "女");
       result.add(user);
     }

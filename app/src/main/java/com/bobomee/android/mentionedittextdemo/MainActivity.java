@@ -2,14 +2,14 @@ package com.bobomee.android.mentionedittextdemo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.bobomee.android.mentionedittext.MentionEditText;
-import com.bobomee.android.mentionedittext.listener.OnMentionInputListener;
+import com.bobomee.android.mentions.edit.MentionEditText;
+import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
+import com.bobomee.android.mentions.text.MentionTextView;
 
 import static com.bobomee.android.mentionedittextdemo.R.id.topic;
 
@@ -22,13 +22,12 @@ public class MainActivity extends AppCompatActivity {
   private Button mAtUser;
   private Button mTopic;
 
-  public static final int REQUEST_USER = 1;
-  public static final int REQUEST_TAG = 1 << 1;
-
   public static final int REQUEST_USER_APPEND = 1 << 2;
   public static final int REQUEST_TAG_APPEND = 1 << 3;
   private Button btnClear;
   private OnMentionInputListener mOnMentionInputListener;
+  private MentionTextView mentiontext;
+  private Button btnCovertToText;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -44,14 +43,6 @@ public class MainActivity extends AppCompatActivity {
     btnClear = (Button) findViewById(R.id.btn_clear);
     mAtUser = (Button) findViewById(R.id.at_user);
     mTopic = (Button) findViewById(topic);
-
-    mMentionedittext.setMentionTextColor(Color.RED);
-    mMentionedittext.setMentionChar('@');
-    mMentionedittext.setMentionTextFormat("(@%s:%s)");
-
-    mMentionedittext.setTagTextColor(Color.BLUE);
-    mMentionedittext.setTagChar('#');
-    mMentionedittext.setTagTextFormat("[#%s:%s]");
 
     if (null == mOnMentionInputListener) {
       mOnMentionInputListener = new OnMentionInputListener() {
@@ -82,13 +73,23 @@ public class MainActivity extends AppCompatActivity {
 
     mAtUser.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER);
+        mMentionedittext.append("@");
       }
     });
 
     mTopic.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG);
+        mMentionedittext.append("#");
+      }
+    });
+    mentiontext = (MentionTextView) findViewById(R.id.mentiontext);
+    btnCovertToText = (Button) findViewById(R.id.btn_covert_to_text);
+
+    btnCovertToText.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        //String convertMetionString = mMentionedittext.convertMetionString();
+
+        mentiontext.setText(test);
       }
     });
   }
@@ -97,25 +98,21 @@ public class MainActivity extends AppCompatActivity {
 
     if (resultCode == Activity.RESULT_OK && null != data) {
       switch (requestCode) {
-        case REQUEST_USER:
-          User user = data.getParcelableExtra(UserList.RESULT_USER);
-          mMentionedittext.mentionUser(user.getUserId(), user.getUserName());
-          break;
-        case REQUEST_TAG:
-          Tag tag = data.getParcelableExtra(TagList.RESULT_TAG);
-          mMentionedittext.mentionTag(tag.getTagId(), tag.getTagLable());
-          break;
         case REQUEST_USER_APPEND:
-          User user1 = data.getParcelableExtra(UserList.RESULT_USER);
-          mMentionedittext.appendUser(user1.getUserId(), user1.getUserName());
+          User user = data.getParcelableExtra(UserList.RESULT_USER);
+          mMentionedittext.appendUser(user.getUserId(), user.getUserName());
           break;
         case REQUEST_TAG_APPEND:
-          Tag tag1 = data.getParcelableExtra(TagList.RESULT_TAG);
-          mMentionedittext.appendTag(tag1.getTagId(), tag1.getTagLable());
+          Tag tag = data.getParcelableExtra(TagList.RESULT_TAG);
+          mMentionedittext.appendTag(tag.getTagId(), tag.getTagLable());
           break;
       }
     }
 
     super.onActivityResult(requestCode, resultCode, data);
   }
+
+  private String test =
+      "(@杨幂,id=y6b7337c3-132e-4dd8-a643-79a9d634de56)#让红包飞#(@1s11112,id=16b7337c3-132e-4dd8-a643-79a9d634de56)#😁好高兴#(@_-cag好;id=h6b7337c3-132e-4dd8-a643-79a9d634de56)";
+
 }

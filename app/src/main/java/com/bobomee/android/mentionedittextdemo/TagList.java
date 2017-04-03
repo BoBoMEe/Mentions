@@ -64,7 +64,7 @@ public class TagList extends AppCompatActivity {
   private List<Tag> provideData() {
     List<Tag> result = new ArrayList<>();
     for (int i = 0; i < 50; i++) {
-      Tag tag = new Tag("tag --> " + i, "tagid-->" + i);
+      Tag tag = new Tag("tag" + i, "id" + i);
       tag.setTagUrl("http://www.baidu.com/");
       result.add(tag);
     }

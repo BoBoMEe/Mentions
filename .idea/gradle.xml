@@ -9,7 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/mentionedittext" />
+            <option value="$PROJECT_DIR$/mentions" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

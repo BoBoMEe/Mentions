@@ -1,1 +1,1 @@
-include ':app', ':mentionedittext'
+include ':app', ':mentions'

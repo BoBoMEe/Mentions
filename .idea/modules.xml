@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MentionEditTextDemo.iml" filepath="$PROJECT_DIR$/MentionEditTextDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/mentionedittext/mentionedittext.iml" filepath="$PROJECT_DIR$/mentionedittext/mentionedittext.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mentions/mentions.iml" filepath="$PROJECT_DIR$/mentions/mentions.iml" />
     </modules>
   </component>
 </project>
