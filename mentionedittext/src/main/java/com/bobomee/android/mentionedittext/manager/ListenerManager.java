@@ -28,6 +28,8 @@ public enum ListenerManager {
 
   private char mentionChar = '@';
 
+  private char mTagChar = '#';
+
   public char getMentionChar() {
     return mentionChar;
   }
@@ -36,8 +38,17 @@ public enum ListenerManager {
     this.mentionChar = mentionChar;
   }
 
+  public char getTagChar() {
+    return mTagChar;
+  }
 
-  private  String mMentionTextFormat = "(@%s,id=%s)";
+  public void setTagChar(char tagChar) {
+    mTagChar = tagChar;
+  }
+
+  private  String mMentionTextFormat = "(@%s:%s)";
+
+  private String mTagTextFormat ="[#%s:%s]";
 
   public String getMentionTextFormat() {
     return mMentionTextFormat;
@@ -45,5 +56,13 @@ public enum ListenerManager {
 
   public void setMentionTextFormat(String mentionTextFormat) {
     mMentionTextFormat = mentionTextFormat;
+  }
+
+  public String getTagTextFormat() {
+    return mTagTextFormat;
+  }
+
+  public void setTagTextFormat(String tagTextFormat) {
+    mTagTextFormat = tagTextFormat;
   }
 }

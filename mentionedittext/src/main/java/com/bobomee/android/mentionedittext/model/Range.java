@@ -1,4 +1,4 @@
-package com.bobomee.android.mentionedittext;
+package com.bobomee.android.mentionedittext.model;
 
 import android.support.annotation.NonNull;
 
@@ -12,15 +12,12 @@ import android.support.annotation.NonNull;
  * @see
  * @since 2017/4/2 汪波 first commit
  */
-public class Range implements Comparable<Range> {
-  private String id;
-  private String name;
+public class Range extends BaseModel implements Comparable<Range> {
   private int from;
   private int to;
 
   public Range(String id, String name, int from, int to) {
-    this.id = id;
-    this.name = name;
+   super(id,name);
     this.from = from;
     this.to = to;
   }
@@ -56,22 +53,6 @@ public class Range implements Comparable<Range> {
 
   @Override public int compareTo(@NonNull Range o) {
     return from - o.from;
-  }
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
   }
 
   public int getFrom() {

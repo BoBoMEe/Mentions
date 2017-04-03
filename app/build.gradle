@@ -27,4 +27,7 @@ dependencies {
   compile 'com.android.support:appcompat-v7:25.3.0'
   testCompile 'junit:junit:4.12'
   compile project(':mentionedittext')
+  compile 'com.android.support:recyclerview-v7:25.3.0'
+  compile 'com.bobomee.android:common:1.4.9'
+  compile 'com.bobomee.android:recyclerviewhelper:1.0.5'
 }

@@ -17,20 +17,20 @@ import com.bobomee.android.mentionedittext.model.Range;
  * @see
  * @since 2017/4/2 汪波 first commit
  */
-public class AtSpan extends ClickableSpan {
+public class TagSpan extends ClickableSpan {
 
   private final Context mContext;
   private Range mRange;
-  private final int mMentionTextColor;
+  private final int mTagColor;
 
-  public AtSpan(Context context, Range range, MentionEditText mentionEditText) {
+  public TagSpan(Context context, Range range, MentionEditText mentionEditText) {
     mContext = context;
     mRange = range;
-    mMentionTextColor = mentionEditText.getMentionTextColor();
+    mTagColor = mentionEditText.getTagTextColor();
   }
 
   @Override public void updateDrawState(TextPaint ds) {
-    ds.setColor(mMentionTextColor);
+    ds.setColor(mTagColor);
     ds.setUnderlineText(false); //去掉下划线
   }
 

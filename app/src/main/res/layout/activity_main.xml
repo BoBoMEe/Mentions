@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -13,25 +12,62 @@
     tools:context="com.bobomee.android.mentionedittextdemo.MainActivity"
     >
 
-  <com.bobomee.android.mentionedittext.MentionEditText
-      android:id="@+id/mentionedittext"
+  <LinearLayout
+      android:orientation="vertical"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      />
-
-  <Button
-      android:id="@+id/btn_covert"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:gravity="center"
-      android:text="获取源字符串"
-      android:textSize="15sp"
-      />
+      android:layout_height="match_parent"
+      >
 
 
-  <TextView
-      android:id="@+id/coverted_string"
+    <com.bobomee.android.mentionedittext.MentionEditText
+        android:id="@+id/mentionedittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/btn_covert"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="获取源字符串"
+        android:textSize="15sp"
+        />
+    <Button
+        android:id="@+id/btn_clear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="清空"
+        android:textSize="15sp"
+        />
+
+    <TextView
+        android:id="@+id/coverted_string"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+  </LinearLayout>
+
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      />
-</LinearLayout>
+      android:layout_alignParentBottom="true"
+      android:orientation="horizontal"
+      >
+
+    <Button
+        android:id="@+id/at_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\@好友"
+        />
+
+    <Button
+        android:id="@+id/topic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\#一个话题"
+        />
+  </LinearLayout>
+</RelativeLayout>

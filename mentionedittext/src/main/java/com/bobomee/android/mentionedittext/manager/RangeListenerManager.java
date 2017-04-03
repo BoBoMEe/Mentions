@@ -1,7 +1,7 @@
 package com.bobomee.android.mentionedittext.manager;
 
 import com.bobomee.android.mentionedittext.MentionEditText;
-import com.bobomee.android.mentionedittext.Range;
+import com.bobomee.android.mentionedittext.model.Range;
 import java.util.ArrayList;
 
 /**

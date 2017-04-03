@@ -4,7 +4,7 @@ import android.view.KeyEvent;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 import com.bobomee.android.mentionedittext.MentionEditText;
-import com.bobomee.android.mentionedittext.Range;
+import com.bobomee.android.mentionedittext.model.Range;
 import com.bobomee.android.mentionedittext.manager.RangeListenerManager;
 
 /**
@@ -24,7 +24,7 @@ class HackInputConnection extends InputConnectionWrapper {
   public HackInputConnection(InputConnection target, boolean mutable, MentionEditText editText) {
     super(target, mutable);
     this.editText = editText;
-    mRangeListenerManager = editText.getRangeListenerManager();
+    mRangeListenerManager = new RangeListenerManager(editText);
   }
 
   @Override public boolean sendKeyEvent(KeyEvent event) {
@@ -60,5 +60,9 @@ class HackInputConnection extends InputConnectionWrapper {
           new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL));
     }
     return super.deleteSurroundingText(beforeLength, afterLength);
+  }
+
+  public RangeListenerManager getRangeListenerManager() {
+    return mRangeListenerManager;
   }
 }
