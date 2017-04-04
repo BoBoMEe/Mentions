@@ -2,14 +2,19 @@ package com.bobomee.android.mentionedittextdemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.bobomee.android.mentions.edit.MentionEditText;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
+import com.bobomee.android.mentions.model.BaseModel;
+import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.text.MentionTextView;
+import com.bobomee.android.mentions.text.listener.SpanClickListener;
 
 import static com.bobomee.android.mentionedittextdemo.R.id.topic;
 
@@ -21,13 +26,14 @@ public class MainActivity extends AppCompatActivity {
   private TextView mCovertedString;
   private Button mAtUser;
   private Button mTopic;
+  private Button mBtnClear;
+  private OnMentionInputListener mOnMentionInputListener;
+  private MentionTextView mMentionTextView;
+  private Button mBtnCovertToText;
 
   public static final int REQUEST_USER_APPEND = 1 << 2;
   public static final int REQUEST_TAG_APPEND = 1 << 3;
-  private Button btnClear;
-  private OnMentionInputListener mOnMentionInputListener;
-  private MentionTextView mentiontext;
-  private Button btnCovertToText;
+  private SpanClickListener mSpanClickListener;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -40,9 +46,11 @@ public class MainActivity extends AppCompatActivity {
     mMentionedittext = (MentionEditText) findViewById(R.id.mentionedittext);
     mBtnCovert = (Button) findViewById(R.id.btn_covert);
     mCovertedString = (TextView) findViewById(R.id.coverted_string);
-    btnClear = (Button) findViewById(R.id.btn_clear);
+    mBtnClear = (Button) findViewById(R.id.btn_clear);
     mAtUser = (Button) findViewById(R.id.at_user);
     mTopic = (Button) findViewById(topic);
+    mMentionTextView = (MentionTextView) findViewById(R.id.mentiontext);
+    mBtnCovertToText = (Button) findViewById(R.id.btn_covert_to_text);
 
     if (null == mOnMentionInputListener) {
       mOnMentionInputListener = new OnMentionInputListener() {
@@ -57,39 +65,50 @@ public class MainActivity extends AppCompatActivity {
       mMentionedittext.addOnMentionInputListener(mOnMentionInputListener);
     }
 
-    mBtnCovert.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        String convertMetionString = mMentionedittext.convertMetionString();
-        mCovertedString.setText(convertMetionString);
-      }
-    });
-
-    btnClear.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        mMentionedittext.clear();
-        mCovertedString.setText("");
-      }
-    });
+    if (null == mSpanClickListener) {
+      mSpanClickListener = new SpanClickListener() {
+        @Override public void click(View widget, Range mRange) {
+          Toast.makeText(mMainActivity, mRange.toString(), Toast.LENGTH_SHORT).show();
+          if (mRange.getType() == BaseModel.TYPE_URL) {
+            String lable = mRange.getLable();
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.VIEW");
+            Uri content_url = Uri.parse(lable);
+            intent.setData(content_url);
+            mMainActivity.startActivity(intent);
+          }
+        }
+      };
+      mMentionTextView.addSpanClickListener(mSpanClickListener);
+    }
 
     mAtUser.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         mMentionedittext.append("@");
       }
     });
-
     mTopic.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         mMentionedittext.append("#");
       }
     });
-    mentiontext = (MentionTextView) findViewById(R.id.mentiontext);
-    btnCovertToText = (Button) findViewById(R.id.btn_covert_to_text);
-
-    btnCovertToText.setOnClickListener(new View.OnClickListener() {
+    mBtnCovert.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        //String convertMetionString = mMentionedittext.convertMetionString();
-
-        mentiontext.setText(test);
+        String convertMetionString = mMentionedittext.convertMetionString();
+        mCovertedString.setText(convertMetionString);
+      }
+    });
+    mBtnCovertToText.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        String convertMetionString = mMentionedittext.convertMetionString();
+        mMentionTextView.setText(convertMetionString);
+      }
+    });
+    mBtnClear.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        mMentionedittext.clear();
+        mCovertedString.setText("");
+        mMentionTextView.clear();
       }
     });
   }
@@ -111,8 +130,4 @@ public class MainActivity extends AppCompatActivity {
 
     super.onActivityResult(requestCode, resultCode, data);
   }
-
-  private String test =
-      "(@杨幂,id=y6b7337c3-132e-4dd8-a643-79a9d634de56)#让红包飞#(@1s11112,id=16b7337c3-132e-4dd8-a643-79a9d634de56)#😁好高兴#(@_-cag好;id=h6b7337c3-132e-4dd8-a643-79a9d634de56)";
-
 }

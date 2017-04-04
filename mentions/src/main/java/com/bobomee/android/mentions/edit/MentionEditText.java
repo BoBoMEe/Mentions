@@ -28,8 +28,8 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
-import com.bobomee.android.mentions.edit.manager.ListenerManager;
-import com.bobomee.android.mentions.edit.manager.RangeListenerManager;
+import com.bobomee.android.mentions.listener.manager.ListenerManager;
+import com.bobomee.android.mentions.listener.manager.RangeListenerManager;
 import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.model.TagRange;
 import com.bobomee.android.mentions.model.UserRange;
@@ -149,7 +149,6 @@ public class MentionEditText extends AppCompatEditText {
     mRangeArrayList.add(range);
   }
 
-
   /**
    * 将所有mention string以指定格式输出
    *
@@ -173,7 +172,7 @@ public class MentionEditText extends AppCompatEditText {
           break;
         case Range.TYPE_TAG:
           newChar =
-              String.format(mListenerManager.getTagTextFormat(), range.getLable(), range.getId());
+              String.format(mListenerManager.getTagTextFormat(), range.getLable());
           break;
       }
 

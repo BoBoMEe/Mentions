@@ -11,9 +11,12 @@ package com.bobomee.android.mentions.model;
  */
 public class TagRange extends Range {
 
+  public TagRange(String name, int from, int to) {
+    this("tag-id", name, from, to);
+  }
+
   public TagRange(String id, String name, int from, int to) {
     super(id, name, from, to);
-
     setType(TYPE_TAG);
   }
 }

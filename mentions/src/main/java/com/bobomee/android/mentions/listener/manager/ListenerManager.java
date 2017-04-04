@@ -1,7 +1,11 @@
-package com.bobomee.android.mentions.edit.manager;
+package com.bobomee.android.mentions.listener.manager;
 
+import android.view.View;
 import com.bobomee.android.mentions.edit.listener.OnMentionInput;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
+import com.bobomee.android.mentions.model.Range;
+import com.bobomee.android.mentions.text.listener.SpanClick;
+import com.bobomee.android.mentions.text.listener.SpanClickListener;
 
 /**
  * Project ID：400YF17051<br/>
@@ -24,6 +28,16 @@ public enum ListenerManager {
 
   public void notifyMentionCharacterInput(char c) {
     mOnMentionInput.onMentionCharacterInput(c);
+  }
+
+  private SpanClick mSpanClick = new SpanClick();
+
+  public void addSpanClickListener(SpanClickListener spanClickListener) {
+    mSpanClick.addListener(spanClickListener);
+  }
+
+  public void notifySpanClickListener(View view, Range range) {
+    mSpanClick.click(view, range);
   }
 
   /////////////////////////////////////////////////////////////////////////////////////
@@ -50,7 +64,7 @@ public enum ListenerManager {
 
   private String mMentionTextFormat = "(@%s,id=%s)";
 
-  private String mTagTextFormat = "[#%s#,id=%s]";
+  private String mTagTextFormat = "#%s#";
 
   public String getMentionTextFormat() {
     return mMentionTextFormat;

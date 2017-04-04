@@ -5,7 +5,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import com.bobomee.android.mentions.edit.MentionEditText;
-import com.bobomee.android.mentions.edit.manager.ListenerManager;
+import com.bobomee.android.mentions.listener.manager.ListenerManager;
 import com.bobomee.android.mentions.model.Range;
 import java.util.Iterator;
 

@@ -16,8 +16,9 @@ public class BaseModel {
 
   public static final int TYPE_USER = 1;
   public static final int TYPE_TAG = 1 << 1;
+  public static final int TYPE_URL = 1<<3;
 
-  @IntDef({ TYPE_USER, TYPE_TAG }) @Retention(RetentionPolicy.SOURCE) public @interface TYPE {
+  @IntDef({ TYPE_USER, TYPE_TAG,TYPE_URL }) @Retention(RetentionPolicy.SOURCE) public @interface TYPE {
   }
 
   private final String mId;
@@ -28,16 +29,6 @@ public class BaseModel {
   public BaseModel(String id, String lable) {
     mId = id;
     mLable = lable;
-  }
-
-  private int lableColor;
-
-  public int getLableColor() {
-    return lableColor;
-  }
-
-  public void setLableColor(int lableColor) {
-    this.lableColor = lableColor;
   }
 
   public String getId() {
@@ -79,7 +70,6 @@ public class BaseModel {
         "mId='" + mId + '\'' +
         ", mLable='" + mLable + '\'' +
         ", mType=" + mType +
-        ", lableColor=" + lableColor +
         '}';
   }
 }

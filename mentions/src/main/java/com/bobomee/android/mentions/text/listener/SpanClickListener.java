@@ -1,4 +1,4 @@
-package com.bobomee.android.mentions.edit.listener;
+package com.bobomee.android.mentions.text.listener;
 
 import android.view.View;
 import com.bobomee.android.mentions.model.Range;

@@ -1,8 +1,8 @@
-package com.bobomee.android.mentions.edit.listener;
+package com.bobomee.android.mentions.text.listener;
 
 import android.view.View;
-import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.listener.ListenerImpl;
+import com.bobomee.android.mentions.model.Range;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  * @see
  * @since 2017/4/3 汪波 first commit
  */
-public class RangeClick extends ListenerImpl<SpanClickListener> {
+public class SpanClick extends ListenerImpl<SpanClickListener> {
 
   public void click(View widget,Range mRange) {
     if (hasListener()) {

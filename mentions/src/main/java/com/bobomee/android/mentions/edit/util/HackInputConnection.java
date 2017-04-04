@@ -5,7 +5,7 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 import com.bobomee.android.mentions.edit.MentionEditText;
 import com.bobomee.android.mentions.model.Range;
-import com.bobomee.android.mentions.edit.manager.RangeListenerManager;
+import com.bobomee.android.mentions.listener.manager.RangeListenerManager;
 
 /**
  * Project ID：400YF17051<br/>
