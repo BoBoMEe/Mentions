@@ -1,5 +1,8 @@
-## MentionEditText
-MentionEditText adds some useful features for mention string(@xxxx,#xxx#), such as highlight, intelligent deletion, intelligent selection and '@' and '#' input detection, etc.
+## Mentions
+- MentionEditText :
+adds some useful features for mention string(@xxxx,#xxx#，links), such as highlight, intelligent deletion, intelligent selection and '@','#'and `links` input detection, etc.
+- MentionTextView :
+display strings with regular matches mention string(@xxxx,#xxx#，links), and support Click events
 
 ## ScreenShot
 ![Samples](art/demo.gif)
@@ -52,6 +55,8 @@ MentionEditText adds some useful features for mention string(@xxxx,#xxx#), such 
   }
 ```
 
+more usage:[MainActivity.java](https://github.com/BoBoMEe/MentionEditText/blob/master/app/src/main/java/com/bobomee/android/mentionedittextdemo/MainActivity.java)
+
 ## Setting
 - `setMentionTextColor(int color);` : default is `Color.RED`.
 - `setMentionChar(char mentionchar);` : default is `'@'`
@@ -59,10 +64,8 @@ MentionEditText adds some useful features for mention string(@xxxx,#xxx#), such 
 
 - `setTagTextColor(int color);` : default is `Color.BLUE`
 - `setTagChar(char mentionchar);` : default is `'#'`
-- `setTagTextFormat(String format);` : default is `"[#%s:%s]"`
+- `setTagTextFormat(String format);` : default is `"[#%s#]"`
 
-more usage:[MainActivity.java](https://github.com/BoBoMEe/MentionEditText/blob/master/app/src/main/java/com/bobomee/android/mentionedittextdemo/MainActivity.java)
 
 ## Thanks
-
-[luckyandyzhang/MentionEditText](https://github.com/luckyandyzhang/MentionEditText)
+- [luckyandyzhang/MentionEditText](https://github.com/luckyandyzhang/MentionEditText)

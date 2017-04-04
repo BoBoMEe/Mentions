@@ -108,6 +108,8 @@ public class TextViewFixTouchConsume extends EllipsizeTextView {
             Selection.setSelection(buffer,
                 buffer.getSpanStart(link[0]),
                 buffer.getSpanEnd(link[0]));
+          }else {
+
           }
 
           if (widget instanceof TextViewFixTouchConsume){
