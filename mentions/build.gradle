@@ -7,8 +7,8 @@ android {
   defaultConfig {
     minSdkVersion 15
     targetSdkVersion 25
-    versionCode 6
-    versionName "1.6"
+    versionCode 7
+    versionName "1.7"
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
@@ -36,7 +36,7 @@ publish {
   userOrg = 'bobomee'//bintray.com用户名
   groupId = 'com.bobomee.android'//jcenter上的路径
   artifactId = 'mentions'//项目名称
-  publishVersion = '1.0.6'//版本号
+  publishVersion = '1.0.7'//版本号
   desc = 'this is for library for mentions in Android'//描述，不重要
   website = 'https://github.com/BoBoMEe/Mentions'//网站，最好有，不重要
 }
