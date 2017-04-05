@@ -17,14 +17,13 @@
 package com.bobomee.android.mentions.edit;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import android.widget.EditText;
 import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
@@ -43,7 +42,7 @@ import java.util.Collections;
  *
  * @author Andy
  */
-public class MentionEditText extends AppCompatEditText {
+public class MentionEditText extends EditText {
   private Runnable mAction;
 
   private boolean mIsSelected;
@@ -205,7 +204,6 @@ public class MentionEditText extends AppCompatEditText {
   private void init() {
     mRangeArrayList = new ArrayList<>();
     //disable suggestion
-    setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
     addTextChangedListener(new MentionTextWatcher(this));
   }
 
