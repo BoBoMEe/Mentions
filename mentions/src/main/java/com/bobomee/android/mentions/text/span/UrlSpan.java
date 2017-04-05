@@ -3,6 +3,7 @@ package com.bobomee.android.mentions.text.span;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.listener.manager.ListenerManager;
 import com.bobomee.android.mentions.model.Range;
 
@@ -18,14 +19,13 @@ import com.bobomee.android.mentions.model.Range;
 public class UrlSpan extends ClickableSpan {
   private final Range mUrlRange;
   private final ListenerManager mListenerManager = ListenerManager.INSTANCE;
-  private final int mUrlTextColor = mListenerManager.getUrlTextColor();
 
   public UrlSpan(Range range) {
     this.mUrlRange = range;
   }
 
   @Override public void updateDrawState(TextPaint ds) {
-    ds.setColor(mUrlTextColor);
+    ds.setColor(ConfigFactory.INSTANCE.config().getUrlTextColor());
     ds.setUnderlineText(true); //去掉下划线
   }
 

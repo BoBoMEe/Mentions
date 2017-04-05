@@ -25,6 +25,7 @@ import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
+import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
 import com.bobomee.android.mentions.edit.util.HackInputConnection;
@@ -132,20 +133,24 @@ public class MentionEditText extends AppCompatEditText {
     int end = start + name.length();
     editable.insert(start, name);
     Range range = new UserRange(uid, name, start - 1, end);
-    editable.setSpan(new ForegroundColorSpan(mListenerManager.getMentionEditColor()), start - 1,
-        end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     mRangeArrayList.add(range);
+    if (getConfig().isSupportAt()) {
+      editable.setSpan(new ForegroundColorSpan(getConfig().getMentionEditColor()), start - 1, end,
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
   }
 
   public void appendTag(String tagId, String tagLabel) {
     Editable editable = getText();
     int start = getSelectionStart();
     int end = start + tagLabel.length() + 1;
-    editable.insert(start, tagLabel + mListenerManager.getTagChar());
+    editable.insert(start, tagLabel + getConfig().getTagChar());
     Range range = new TagRange(tagId, tagLabel, start - 1, end);
-    editable.setSpan(new ForegroundColorSpan(mListenerManager.getTagEditColor()), start - 1, end,
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     mRangeArrayList.add(range);
+    if (getConfig().isSupportTag()) {
+      editable.setSpan(new ForegroundColorSpan(getConfig().getTagEditColor()), start - 1, end,
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
   }
 
   /**
@@ -166,11 +171,19 @@ public class MentionEditText extends AppCompatEditText {
     for (Range range : mRangeArrayList) {
       switch (range.getType()) {
         case Range.TYPE_USER:
-          newChar = String.format(mListenerManager.getMentionTextFormat(), range.getLable(),
-              range.getId());
+          if (getConfig().isSupportAt()) {
+            newChar =
+                String.format(getConfig().getMentionTextFormat(), range.getLable(), range.getId());
+          } else {
+            newChar = getConfig().getMentionChar() + range.getLable();
+          }
           break;
         case Range.TYPE_TAG:
-          newChar = String.format(mListenerManager.getTagTextFormat(), range.getLable());
+          if (getConfig().isSupportTag()) {
+            newChar = String.format(getConfig().getTagTextFormat(), range.getLable());
+          } else {
+            newChar = getConfig().getTagChar() + range.getLable() + getConfig().getTagChar();
+          }
           break;
       }
 
@@ -178,6 +191,8 @@ public class MentionEditText extends AppCompatEditText {
       builder.append(newChar);
       lastRangeTo = range.getTo();
     }
+
+    builder.append(text.substring(lastRangeTo));
 
     return builder.toString();
   }
@@ -203,27 +218,6 @@ public class MentionEditText extends AppCompatEditText {
     mListenerManager.addOnMentionInputListener(mentionInputListener);
   }
 
-  /**
-   * set highlight color of mention string
-   *
-   * @param color value from 'getResources().getColor()' or 'Color.parseColor()' etc.
-   */
-  public void setMentionTextColor(int color) {
-    mListenerManager.setMentionEditColor(color);
-  }
-
-  public int getMentionTextColor() {
-    return mListenerManager.getMentionEditColor();
-  }
-
-  public int getTagTextColor() {
-    return mListenerManager.getTagEditColor();
-  }
-
-  public void setTagTextColor(int tagTextColor) {
-    mListenerManager.setTagEditColor(tagTextColor);
-  }
-
   @Override public boolean isSelected() {
     return mIsSelected;
   }
@@ -240,27 +234,7 @@ public class MentionEditText extends AppCompatEditText {
     return mRangeArrayList;
   }
 
-  public void setMentionChar(char mentionChar) {
-    mListenerManager.setMentionChar(mentionChar);
-  }
-
-  public char getMentionChar() {
-    return mListenerManager.getMentionChar();
-  }
-
-  public void setMentionTextFormat(String format) {
-    mListenerManager.setMentionTextFormat(format);
-  }
-
-  public void setTagChar(char tagChar) {
-    mListenerManager.setTagChar(tagChar);
-  }
-
-  public char getTagChar() {
-    return mListenerManager.getTagChar();
-  }
-
-  public void setTagTextFormat(String tagTextFormat) {
-    mListenerManager.setTagTextFormat(tagTextFormat);
+  private ConfigFactory.Config getConfig() {
+    return ConfigFactory.INSTANCE.config();
   }
 }

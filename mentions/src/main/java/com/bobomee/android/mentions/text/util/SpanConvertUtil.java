@@ -3,6 +3,7 @@ package com.bobomee.android.mentions.text.util;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
+import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.model.BaseModel;
 import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.model.TagRange;
@@ -76,32 +77,39 @@ public class SpanConvertUtil {
     }
 
     SpannableString spannable = new SpannableString(text);
+    if (getConfig().isSupportAt()) {
 
-    for (com.bobomee.android.mentions.model.Range range : mRangeSet) {
-      if (range.getType() == BaseModel.TYPE_USER) {
-        spannable.setSpan(new AtSpan(range), range.getFrom(), range.getTo(),
+      for (com.bobomee.android.mentions.model.Range range : mRangeSet) {
+        if (range.getType() == BaseModel.TYPE_USER) {
+          spannable.setSpan(new AtSpan(range), range.getFrom(), range.getTo(),
+              Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+        }
+      }
+    }
+
+    if (getConfig().isSupportTag()) {
+
+      Matcher tag = TAG_PATTERN.matcher(spannable);
+      while (tag.find()) {
+        String tagNameMatch = tag.group();
+        int start = tag.start();
+        com.bobomee.android.mentions.model.Range range =
+            new TagRange(tagNameMatch, start, start + tagNameMatch.length());
+        spannable.setSpan(new TagSpan(range), start, start + tagNameMatch.length(),
             Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
       }
     }
 
-    Matcher tag = TAG_PATTERN.matcher(spannable);
-    while (tag.find()) {
-      String tagNameMatch = tag.group();
-      int start = tag.start();
-      com.bobomee.android.mentions.model.Range range =
-          new TagRange(tagNameMatch, start, start + tagNameMatch.length());
-      spannable.setSpan(new TagSpan(range), start, start + tagNameMatch.length(),
-          Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-    }
-
-    Matcher url = URL_PATTERN.matcher(spannable);
-    while (url.find()) {
-      String urlString = url.group();
-      int start = url.start();
-      com.bobomee.android.mentions.model.Range range =
-          new UrlRange(urlString, start, start + urlString.length());
-      spannable.setSpan(new UrlSpan(range), start, start + urlString.length(),
-          Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+    if (getConfig().isSupportLink()) {
+      Matcher url = URL_PATTERN.matcher(spannable);
+      while (url.find()) {
+        String urlString = url.group();
+        int start = url.start();
+        com.bobomee.android.mentions.model.Range range =
+            new UrlRange(urlString, start, start + urlString.length());
+        spannable.setSpan(new UrlSpan(range), start, start + urlString.length(),
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
+      }
     }
 
     return spannable;
@@ -109,5 +117,9 @@ public class SpanConvertUtil {
 
   public void clear() {
     mRangeSet.clear();
+  }
+
+  private ConfigFactory.Config getConfig() {
+    return ConfigFactory.INSTANCE.config();
   }
 }

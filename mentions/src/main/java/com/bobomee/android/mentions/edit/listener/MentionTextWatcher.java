@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.edit.MentionEditText;
 import com.bobomee.android.mentions.listener.manager.ListenerManager;
 import com.bobomee.android.mentions.model.Range;
@@ -20,7 +21,7 @@ import java.util.Iterator;
  */
 public class MentionTextWatcher implements TextWatcher {
   private final MentionEditText mEditText;
-  private ListenerManager mListenerManager = ListenerManager.INSTANCE;
+  private final ListenerManager mListenerManager = ListenerManager.INSTANCE;
 
   public MentionTextWatcher(MentionEditText editText) {
     this.mEditText = editText;
@@ -65,8 +66,9 @@ public class MentionTextWatcher implements TextWatcher {
   @Override public void onTextChanged(CharSequence charSequence, int index, int i1, int count) {
     if (count == 1 && !TextUtils.isEmpty(charSequence)) {
       char mentionChar = charSequence.toString().charAt(index);
-      if (mentionChar == mListenerManager.getMentionChar()
-          || mentionChar == mListenerManager.getTagChar()) {
+      ConfigFactory.Config config = ConfigFactory.INSTANCE.config();
+      if (mentionChar == config.getMentionChar()
+          || mentionChar == config.getTagChar()) {
         mListenerManager.notifyMentionCharacterInput(mentionChar);
       }
     }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.edit.MentionEditText;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
 import com.bobomee.android.mentions.model.BaseModel;
@@ -52,12 +53,19 @@ public class MainActivity extends AppCompatActivity {
     mMentionTextView = (MentionTextView) findViewById(R.id.mentiontext);
     mBtnCovertToText = (Button) findViewById(R.id.btn_covert_to_text);
 
+    ConfigFactory.INSTANCE.config(
+        new ConfigFactory.Config.Builder()
+            //.supportAt(false)
+            //.supportTag(false)
+            .build()
+    );
+
     if (null == mOnMentionInputListener) {
       mOnMentionInputListener = new OnMentionInputListener() {
         @Override public void onMentionCharacterInput(char charSequence) {
-          if (charSequence == mMentionedittext.getMentionChar()) {
+          if (charSequence == ConfigFactory.INSTANCE.config().getMentionChar()) {
             startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
-          } else if (charSequence == mMentionedittext.getTagChar()) {
+          } else if (charSequence == ConfigFactory.INSTANCE.config().getTagChar()) {
             startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
           }
         }

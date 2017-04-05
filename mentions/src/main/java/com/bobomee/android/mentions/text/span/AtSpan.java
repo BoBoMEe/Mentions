@@ -3,6 +3,7 @@ package com.bobomee.android.mentions.text.span;
 import android.text.TextPaint;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.listener.manager.ListenerManager;
 import com.bobomee.android.mentions.model.Range;
 
@@ -19,14 +20,13 @@ public class AtSpan extends ClickableSpan {
 
   private final Range mAtRange;
   private final ListenerManager mListenerManager = ListenerManager.INSTANCE;
-  private final int mMentionTextColor = mListenerManager.getMentionTextColor();
 
   public AtSpan(Range range) {
     this.mAtRange = range;
   }
 
   @Override public void updateDrawState(TextPaint ds) {
-    ds.setColor(mMentionTextColor);
+    ds.setColor(ConfigFactory.INSTANCE.config().getMentionTextColor());
     ds.setUnderlineText(false); //去掉下划线
   }
 

@@ -39,6 +39,7 @@ public class MentionTextView extends TextViewFixTouchConsume {
   }
 
   @Override public void setText(CharSequence text, BufferType type) {
+    onInitialize();
     SpannableString weiBoText = mSpanConvertUtil.getWeiBoText(text.toString());
     setMovementMethod(TextViewFixTouchConsume.LocalLinkMovementMethod.getInstance());
     super.setText(weiBoText, type);
@@ -53,31 +54,7 @@ public class MentionTextView extends TextViewFixTouchConsume {
   private SpanConvertUtil mSpanConvertUtil;
 
   private void onInitialize() {
-    mSpanConvertUtil = new SpanConvertUtil();
-  }
-
-  public int getUrlTextColor() {
-    return mListenerManager.getUrlTextColor();
-  }
-
-  public int getMentionTextColor() {
-    return mListenerManager.getMentionTextColor();
-  }
-
-  public int getTagTextColor() {
-    return mListenerManager.getTagTextColor();
-  }
-
-  public void setUrlTextColor(int urlTextColor) {
-    mListenerManager.setUrlTextColor(urlTextColor);
-  }
-
-  public void setMentionTextColor(int mentionTextColor) {
-    mListenerManager.setMentionTextColor(mentionTextColor);
-  }
-
-  public void setTagTextColor(int tagTextColor) {
-    mListenerManager.setTagTextColor(tagTextColor);
+    if (null == mSpanConvertUtil) mSpanConvertUtil = new SpanConvertUtil();
   }
 
   private ListenerManager mListenerManager = ListenerManager.INSTANCE;
@@ -85,4 +62,5 @@ public class MentionTextView extends TextViewFixTouchConsume {
   public void addSpanClickListener(SpanClickListener spanClickListener) {
     mListenerManager.addSpanClickListener(spanClickListener);
   }
+
 }
