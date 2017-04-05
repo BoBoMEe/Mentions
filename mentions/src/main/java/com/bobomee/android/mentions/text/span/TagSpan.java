@@ -5,7 +5,6 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import com.bobomee.android.mentions.listener.manager.ListenerManager;
 import com.bobomee.android.mentions.model.Range;
-import com.bobomee.android.mentions.text.MentionTextView;
 
 /**
  * Project ID：400YF17051<br/>
@@ -18,12 +17,11 @@ import com.bobomee.android.mentions.text.MentionTextView;
  */
 public class TagSpan extends ClickableSpan {
 
-  private final int mTagTextColor;
   private final Range mTagRange;
-  private ListenerManager mListenerManager = ListenerManager.INSTANCE;
+  private final ListenerManager mListenerManager = ListenerManager.INSTANCE;
+  private final int mTagTextColor = mListenerManager.getTagTextColor();
 
-  public TagSpan(MentionTextView mentionTextView, Range range) {
-    mTagTextColor = mentionTextView.getTagTextColor();
+  public TagSpan( Range range) {
     this.mTagRange = range;
   }
 

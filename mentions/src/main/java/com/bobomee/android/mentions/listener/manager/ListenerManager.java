@@ -1,5 +1,6 @@
 package com.bobomee.android.mentions.listener.manager;
 
+import android.graphics.Color;
 import android.view.View;
 import com.bobomee.android.mentions.edit.listener.OnMentionInput;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
@@ -80,5 +81,53 @@ public enum ListenerManager {
 
   public void setTagTextFormat(String tagTextFormat) {
     mTagTextFormat = tagTextFormat;
+  }
+
+
+  private int mMentionTextColor = Color.RED;
+  private int mTagTextColor = Color.BLUE;
+  private int mUrlTextColor = Color.GRAY;
+
+  public int getUrlTextColor() {
+    return mUrlTextColor;
+  }
+
+  public int getMentionTextColor() {
+    return mMentionTextColor;
+  }
+
+  public int getTagTextColor() {
+    return mTagTextColor;
+  }
+
+  public void setUrlTextColor(int urlTextColor) {
+    mUrlTextColor = urlTextColor;
+  }
+
+  public void setMentionTextColor(int mentionTextColor) {
+    mMentionTextColor = mentionTextColor;
+  }
+
+  public void setTagTextColor(int tagTextColor) {
+    mTagTextColor = tagTextColor;
+  }
+
+  private int mMentionEditColor = Color.RED;
+  private int mTagEditColor = Color.BLUE;
+
+  public int getMentionEditColor() {
+    return mMentionEditColor;
+  }
+
+  public void setMentionEditColor(int mentionEditColor) {
+    mMentionEditColor = mentionEditColor;
+  }
+
+  public int getTagEditColor() {
+    return mTagEditColor;
+  }
+
+  public void setTagEditColor(int tagEditColor) {
+    mTagEditColor = tagEditColor;
   }
 }

@@ -1,7 +1,6 @@
 package com.bobomee.android.mentions.text;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.SpannableString;
@@ -52,39 +51,33 @@ public class MentionTextView extends TextViewFixTouchConsume {
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   private SpanConvertUtil mSpanConvertUtil;
-  private int mMentionTextColor;
-  private int mTagTextColor;
-  private int mUrlTextColor;
 
   private void onInitialize() {
-    mSpanConvertUtil = new SpanConvertUtil(this);
-    mMentionTextColor = Color.RED;
-    mTagTextColor = Color.BLUE;
-    mUrlTextColor = Color.GRAY;
+    mSpanConvertUtil = new SpanConvertUtil();
   }
 
   public int getUrlTextColor() {
-    return mUrlTextColor;
+    return mListenerManager.getUrlTextColor();
   }
 
   public int getMentionTextColor() {
-    return mMentionTextColor;
+    return mListenerManager.getMentionTextColor();
   }
 
   public int getTagTextColor() {
-    return mTagTextColor;
+    return mListenerManager.getTagTextColor();
   }
 
   public void setUrlTextColor(int urlTextColor) {
-    mUrlTextColor = urlTextColor;
+    mListenerManager.setUrlTextColor(urlTextColor);
   }
 
   public void setMentionTextColor(int mentionTextColor) {
-    mMentionTextColor = mentionTextColor;
+    mListenerManager.setMentionTextColor(mentionTextColor);
   }
 
   public void setTagTextColor(int tagTextColor) {
-    mTagTextColor = tagTextColor;
+    mListenerManager.setTagTextColor(tagTextColor);
   }
 
   private ListenerManager mListenerManager = ListenerManager.INSTANCE;

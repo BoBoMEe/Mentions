@@ -17,7 +17,6 @@
 package com.bobomee.android.mentions.edit;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputType;
@@ -28,12 +27,12 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
+import com.bobomee.android.mentions.edit.util.HackInputConnection;
 import com.bobomee.android.mentions.listener.manager.ListenerManager;
 import com.bobomee.android.mentions.listener.manager.RangeListenerManager;
 import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.model.TagRange;
 import com.bobomee.android.mentions.model.UserRange;
-import com.bobomee.android.mentions.edit.util.HackInputConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -46,8 +45,6 @@ import java.util.Collections;
 public class MentionEditText extends AppCompatEditText {
   private Runnable mAction;
 
-  private int mMentionTextColor;
-  private int mTagTextColor;
   private boolean mIsSelected;
 
   private Range mLastSelectedRange;
@@ -135,7 +132,8 @@ public class MentionEditText extends AppCompatEditText {
     int end = start + name.length();
     editable.insert(start, name);
     Range range = new UserRange(uid, name, start - 1, end);
-    editable.setSpan( new ForegroundColorSpan(mMentionTextColor), start - 1, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    editable.setSpan(new ForegroundColorSpan(mListenerManager.getMentionEditColor()), start - 1,
+        end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     mRangeArrayList.add(range);
   }
 
@@ -145,7 +143,8 @@ public class MentionEditText extends AppCompatEditText {
     int end = start + tagLabel.length() + 1;
     editable.insert(start, tagLabel + mListenerManager.getTagChar());
     Range range = new TagRange(tagId, tagLabel, start - 1, end);
-    editable.setSpan(new ForegroundColorSpan(mTagTextColor), start - 1, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    editable.setSpan(new ForegroundColorSpan(mListenerManager.getTagEditColor()), start - 1, end,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     mRangeArrayList.add(range);
   }
 
@@ -171,8 +170,7 @@ public class MentionEditText extends AppCompatEditText {
               range.getId());
           break;
         case Range.TYPE_TAG:
-          newChar =
-              String.format(mListenerManager.getTagTextFormat(), range.getLable());
+          newChar = String.format(mListenerManager.getTagTextFormat(), range.getLable());
           break;
       }
 
@@ -191,8 +189,6 @@ public class MentionEditText extends AppCompatEditText {
 
   private void init() {
     mRangeArrayList = new ArrayList<>();
-    mMentionTextColor = Color.RED;
-    mTagTextColor = Color.BLUE;
     //disable suggestion
     setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
     addTextChangedListener(new MentionTextWatcher(this));
@@ -213,19 +209,19 @@ public class MentionEditText extends AppCompatEditText {
    * @param color value from 'getResources().getColor()' or 'Color.parseColor()' etc.
    */
   public void setMentionTextColor(int color) {
-    mMentionTextColor = color;
+    mListenerManager.setMentionEditColor(color);
   }
 
   public int getMentionTextColor() {
-    return mMentionTextColor;
+    return mListenerManager.getMentionEditColor();
   }
 
   public int getTagTextColor() {
-    return mTagTextColor;
+    return mListenerManager.getTagEditColor();
   }
 
   public void setTagTextColor(int tagTextColor) {
-    mTagTextColor = tagTextColor;
+    mListenerManager.setTagEditColor(tagTextColor);
   }
 
   @Override public boolean isSelected() {

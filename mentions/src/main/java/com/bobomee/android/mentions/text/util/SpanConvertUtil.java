@@ -8,7 +8,6 @@ import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.model.TagRange;
 import com.bobomee.android.mentions.model.UrlRange;
 import com.bobomee.android.mentions.model.UserRange;
-import com.bobomee.android.mentions.text.MentionTextView;
 import com.bobomee.android.mentions.text.span.AtSpan;
 import com.bobomee.android.mentions.text.span.TagSpan;
 import com.bobomee.android.mentions.text.span.UrlSpan;
@@ -35,11 +34,9 @@ public class SpanConvertUtil {
   private static final Pattern TAG_PATTERN = Pattern.compile("#([^\\#|.]+)#");
 
   private Set<Range> mRangeSet;
-  private MentionTextView mMentionTextView;
 
-  public SpanConvertUtil(MentionTextView mentionTextView) {
+  public SpanConvertUtil() {
     mRangeSet = new HashSet<>();
-    mMentionTextView = mentionTextView;
   }
 
   private void addRange(com.bobomee.android.mentions.model.Range range) {
@@ -82,7 +79,7 @@ public class SpanConvertUtil {
 
     for (com.bobomee.android.mentions.model.Range range : mRangeSet) {
       if (range.getType() == BaseModel.TYPE_USER) {
-        spannable.setSpan(new AtSpan(mMentionTextView, range), range.getFrom(), range.getTo(),
+        spannable.setSpan(new AtSpan(range), range.getFrom(), range.getTo(),
             Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
       }
     }
@@ -93,7 +90,7 @@ public class SpanConvertUtil {
       int start = tag.start();
       com.bobomee.android.mentions.model.Range range =
           new TagRange(tagNameMatch, start, start + tagNameMatch.length());
-      spannable.setSpan(new TagSpan(mMentionTextView, range), start, start + tagNameMatch.length(),
+      spannable.setSpan(new TagSpan(range), start, start + tagNameMatch.length(),
           Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
@@ -103,7 +100,7 @@ public class SpanConvertUtil {
       int start = url.start();
       com.bobomee.android.mentions.model.Range range =
           new UrlRange(urlString, start, start + urlString.length());
-      spannable.setSpan(new UrlSpan(mMentionTextView, range), start, start + urlString.length(),
+      spannable.setSpan(new UrlSpan(range), start, start + urlString.length(),
           Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
     }
 
@@ -113,5 +110,4 @@ public class SpanConvertUtil {
   public void clear() {
     mRangeSet.clear();
   }
-
 }

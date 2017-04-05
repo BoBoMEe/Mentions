@@ -5,7 +5,6 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import com.bobomee.android.mentions.listener.manager.ListenerManager;
 import com.bobomee.android.mentions.model.Range;
-import com.bobomee.android.mentions.text.MentionTextView;
 
 /**
  * Project ID：400YF17051<br/>
@@ -17,12 +16,11 @@ import com.bobomee.android.mentions.text.MentionTextView;
  * @since 2017/4/4 汪波 first commit
  */
 public class UrlSpan extends ClickableSpan {
-  private final int mUrlTextColor;
   private final Range mUrlRange;
-  private ListenerManager mListenerManager = ListenerManager.INSTANCE;
+  private final ListenerManager mListenerManager = ListenerManager.INSTANCE;
+  private final int mUrlTextColor = mListenerManager.getUrlTextColor();
 
-  public UrlSpan(MentionTextView mentionTextView, Range range) {
-    mUrlTextColor = mentionTextView.getUrlTextColor();
+  public UrlSpan(Range range) {
     this.mUrlRange = range;
   }
 
