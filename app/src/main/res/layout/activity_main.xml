@@ -13,9 +13,9 @@
     >
 
   <LinearLayout
-      android:orientation="vertical"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:orientation="vertical"
       >
 
 
@@ -23,6 +23,8 @@
         android:id="@+id/mentionedittext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="top"
         />
 
     <Button
@@ -58,31 +60,32 @@
 
 
     <com.bobomee.android.mentions.text.MentionTextView
+        android:id="@+id/mentiontext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/mentiontext"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+
+      <Button
+          android:id="@+id/at_user"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="\@好友"
+          />
+
+      <Button
+          android:id="@+id/topic"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="\#一个话题"
+          />
+    </LinearLayout>
   </LinearLayout>
 
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:orientation="horizontal"
-      >
 
-    <Button
-        android:id="@+id/at_user"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="\@好友"
-        />
-
-    <Button
-        android:id="@+id/topic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="\#一个话题"
-        />
-  </LinearLayout>
 </RelativeLayout>
