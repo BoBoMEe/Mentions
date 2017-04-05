@@ -2,6 +2,7 @@ package com.bobomee.android.mentionedittextdemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -57,6 +58,10 @@ public class MainActivity extends AppCompatActivity {
         new ConfigFactory.Config.Builder()
             //.supportAt(false)
             //.supportTag(false)
+            .mMentionEditColor(Color.BLUE)
+            .mMentionTextColor(Color.BLUE)
+            .mTagTextColor(Color.CYAN)
+            .mTagEditColor(Color.CYAN)
             .build()
     );
 

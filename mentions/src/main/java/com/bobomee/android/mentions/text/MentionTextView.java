@@ -42,7 +42,15 @@ public class MentionTextView extends TextViewFixTouchConsume {
     onInitialize();
     SpannableString weiBoText = mSpanConvertUtil.getWeiBoText(text.toString());
     setMovementMethod(TextViewFixTouchConsume.LocalLinkMovementMethod.getInstance());
+
+    wrapper(weiBoText);
+
     super.setText(weiBoText, type);
+  }
+
+  protected SpannableString wrapper(SpannableString weiBoText) {
+
+    return weiBoText;
   }
 
   public void clear() {
@@ -62,5 +70,4 @@ public class MentionTextView extends TextViewFixTouchConsume {
   public void addSpanClickListener(SpanClickListener spanClickListener) {
     mListenerManager.addSpanClickListener(spanClickListener);
   }
-
 }
