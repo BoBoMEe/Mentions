@@ -62,7 +62,11 @@ public class MentionTextView extends TextViewFixTouchConsume {
   private SpanConvertUtil mSpanConvertUtil;
 
   private void onInitialize() {
-    if (null == mSpanConvertUtil) mSpanConvertUtil = new SpanConvertUtil();
+    if (null == mSpanConvertUtil) {
+      mSpanConvertUtil = new SpanConvertUtil();
+    }else {
+      mSpanConvertUtil.clear();
+    }
   }
 
   private ListenerManager mListenerManager = ListenerManager.INSTANCE;

@@ -18,8 +18,6 @@ import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.text.MentionTextView;
 import com.bobomee.android.mentions.text.listener.SpanClickListener;
 
-import static com.bobomee.android.mentionedittextdemo.R.id.topic;
-
 public class MainActivity extends AppCompatActivity {
 
   private MainActivity mMainActivity;
@@ -50,20 +48,18 @@ public class MainActivity extends AppCompatActivity {
     mCovertedString = (TextView) findViewById(R.id.coverted_string);
     mBtnClear = (Button) findViewById(R.id.btn_clear);
     mAtUser = (Button) findViewById(R.id.at_user);
-    mTopic = (Button) findViewById(topic);
+    mTopic = (Button) findViewById(R.id.topic);
     mMentionTextView = (MentionTextView) findViewById(R.id.mentiontext);
     mBtnCovertToText = (Button) findViewById(R.id.btn_covert_to_text);
 
-    ConfigFactory.INSTANCE.config(
-        new ConfigFactory.Config.Builder()
-            //.supportAt(false)
-            //.supportTag(false)
-            .mMentionEditColor(Color.BLUE)
-            .mMentionTextColor(Color.BLUE)
-            .mTagTextColor(Color.CYAN)
-            .mTagEditColor(Color.CYAN)
-            .build()
-    );
+    ConfigFactory.INSTANCE.config(new ConfigFactory.Config.Builder()
+        //.supportAt(false)
+        //.supportTag(false)
+        .mMentionEditColor(Color.BLUE)
+        .mMentionTextColor(Color.BLUE)
+        .mTagTextColor(Color.CYAN)
+        .mTagEditColor(Color.CYAN)
+        .build());
 
     if (null == mOnMentionInputListener) {
       mOnMentionInputListener = new OnMentionInputListener() {
@@ -124,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
         mMentionTextView.clear();
       }
     });
+
+    mMentionTextView.setText(testString);
   }
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -143,4 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     super.onActivityResult(requestCode, resultCode, data);
   }
+
+  private String testString =
+      "妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节打击你内存金蛇狂舞呢聚沉妇女节假沉妇女节打击你内存金蛇狂舞呢聚沉";
 }
