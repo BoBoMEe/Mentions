@@ -3,13 +3,12 @@ package com.bobomee.android.mentions.model;
 import android.support.annotation.NonNull;
 
 /**
- * Project ID：400YF17051<br/>
+ *
  * Resume:
  * //helper class to record the position of mention string in EditText
  *
  * @author 汪波
  * @version 1.0
- * @see
  * @since 2017/4/2 汪波 first commit
  */
 public class Range extends BaseModel implements Comparable<Range> {

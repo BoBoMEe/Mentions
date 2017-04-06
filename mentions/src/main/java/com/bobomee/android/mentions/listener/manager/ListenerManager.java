@@ -8,12 +8,11 @@ import com.bobomee.android.mentions.text.listener.SpanClick;
 import com.bobomee.android.mentions.text.listener.SpanClickListener;
 
 /**
- * Project ID：400YF17051<br/>
+ *
  * Resume:
  *
  * @author 汪波
  * @version 1.0
- * @see
  * @since 2017/4/2 汪波 first commit
  */
 public enum ListenerManager {
@@ -40,4 +39,11 @@ public enum ListenerManager {
     mSpanClick.click(view, range);
   }
 
+  public OnMentionInput getOnMentionInput() {
+    return mOnMentionInput;
+  }
+
+  public SpanClick getSpanClick() {
+    return mSpanClick;
+  }
 }

@@ -5,12 +5,11 @@ import android.graphics.Color;
 import static com.bobomee.android.mentions.ConfigFactory.Config.sConfig;
 
 /**
- * Project ID：400YF17051<br/>
+ *
  * Resume:
  *
  * @author 汪波
  * @version 1.0
- * @see
  * @since 2017/4/5 汪波 first commit
  */
 

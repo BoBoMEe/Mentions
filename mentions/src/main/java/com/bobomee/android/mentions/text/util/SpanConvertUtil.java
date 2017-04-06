@@ -18,12 +18,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Project ID：400YF17051<br/>
+ *
  * Resume:
  *
  * @author 汪波
  * @version 1.0
- * @see
  * @since 2017/4/5 汪波 first commit
  */
 public class SpanConvertUtil {

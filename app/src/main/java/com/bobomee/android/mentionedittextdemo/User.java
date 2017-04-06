@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Project ID：400YF17051<br/>
+ *
  * Resume:
  *
  * @author 汪波

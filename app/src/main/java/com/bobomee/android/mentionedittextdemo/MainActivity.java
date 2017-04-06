@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
           }
         }
       };
-      mMentionedittext.addOnMentionInputListener(mOnMentionInputListener);
+      mMentionedittext.setOnMentionInputListener(mOnMentionInputListener);
     }
 
     if (null == mSpanClickListener) {
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
           }
         }
       };
-      mMentionTextView.addSpanClickListener(mSpanClickListener);
+      mMentionTextView.setSpanClickListener(mSpanClickListener);
     }
 
     mAtUser.setOnClickListener(new View.OnClickListener() {

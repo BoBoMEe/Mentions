@@ -5,7 +5,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Project ID：400YF17051<br/>
+ *
  * Resume: 基本用户信息
  *
  * @author 汪波

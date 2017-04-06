@@ -26,6 +26,7 @@ import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
 import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
+import com.bobomee.android.mentions.edit.listener.OnMentionInput;
 import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
 import com.bobomee.android.mentions.edit.util.HackInputConnection;
 import com.bobomee.android.mentions.listener.manager.ListenerManager;
@@ -214,6 +215,13 @@ public class MentionEditText extends EditText {
 
   public void addOnMentionInputListener(OnMentionInputListener mentionInputListener) {
     mListenerManager.addOnMentionInputListener(mentionInputListener);
+  }
+
+  public void setOnMentionInputListener(OnMentionInputListener mentionInputListener) {
+    OnMentionInput onMentionInput = mListenerManager.getOnMentionInput();
+    if (!onMentionInput.hasListener()) {
+      addOnMentionInputListener(mentionInputListener);
+    }
   }
 
   @Override public boolean isSelected() {

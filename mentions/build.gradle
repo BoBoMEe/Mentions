@@ -7,8 +7,8 @@ android {
   defaultConfig {
     minSdkVersion 15
     targetSdkVersion 25
-    versionCode 7
-    versionName "1.7"
+    versionCode 10
+    versionName "2.0"
 
     testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
   }
@@ -29,17 +29,13 @@ dependencies {
   testCompile 'junit:junit:4.12'
 }
 
-apply plugin: 'com.novoda.bintray-release'//添加
-
-//添加
-publish {
-  userOrg = 'bobomee'//bintray.com用户名
-  groupId = 'com.bobomee.android'//jcenter上的路径
-  artifactId = 'mentions'//项目名称
-  publishVersion = '1.0.7'//版本号
-  desc = 'this is for library for mentions in Android'//描述，不重要
-  website = 'https://github.com/BoBoMEe/Mentions'//网站，最好有，不重要
+buildscript {
+  repositories {
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.6'
+  }
 }
-
-/*
-./gradlew clean build bintrayUpload -PbintrayUser=bobomee -PbintrayKey=a8bea95a15202a6f8580bb4dc47e3d78f5cc0928 -PdryRun=false*/
+apply from: './bintray.gradle'
