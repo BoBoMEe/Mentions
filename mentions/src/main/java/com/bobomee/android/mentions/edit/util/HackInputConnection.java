@@ -5,10 +5,8 @@ import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 import com.bobomee.android.mentions.edit.MentionEditText;
 import com.bobomee.android.mentions.model.Range;
-import com.bobomee.android.mentions.edit.listener.RangeListenerManager;
 
 /**
- *
  * Resume:
  *
  * @author 汪波
@@ -18,12 +16,12 @@ import com.bobomee.android.mentions.edit.listener.RangeListenerManager;
 public //handle the deletion action for mention string, such as '@test'
 class HackInputConnection extends InputConnectionWrapper {
   private final MentionEditText mEditText;
-  private final RangeListenerManager mRangeListenerManager;
+  private final RangeManager mRangeListenerManager;
 
   public HackInputConnection(InputConnection target, boolean mutable, MentionEditText editText) {
     super(target, mutable);
     this.mEditText = editText;
-    mRangeListenerManager = new RangeListenerManager(editText);
+    mRangeListenerManager = editText.getRangeManager();
   }
 
   @Override public boolean sendKeyEvent(KeyEvent event) {
@@ -61,7 +59,7 @@ class HackInputConnection extends InputConnectionWrapper {
     return super.deleteSurroundingText(beforeLength, afterLength);
   }
 
-  public RangeListenerManager getRangeListenerManager() {
+  public RangeManager getRangeListenerManager() {
     return mRangeListenerManager;
   }
 }

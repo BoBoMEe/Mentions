@@ -27,7 +27,6 @@ import android.widget.EditText;
 import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
 import com.bobomee.android.mentions.edit.util.HackInputConnection;
-import com.bobomee.android.mentions.edit.listener.RangeListenerManager;
 import com.bobomee.android.mentions.edit.util.RangeManager;
 import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.model.TagRange;
@@ -64,7 +63,6 @@ public class MentionEditText extends EditText {
   @Override public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
     HackInputConnection hackInputConnection =
         new HackInputConnection(super.onCreateInputConnection(outAttrs), true, this);
-    mRangeListenerManager = hackInputConnection.getRangeListenerManager();
     return hackInputConnection;
   }
 
@@ -89,13 +87,13 @@ public class MentionEditText extends EditText {
     }
 
     //if user cancel a selection of mention string, reset the state of 'mIsSelected'
-    if (null != mRangeListenerManager) {
-      Range closestRange = mRangeListenerManager.getRangeOfClosestMentionString(selStart, selEnd);
+    if (null != mRangeManager) {
+      Range closestRange = mRangeManager.getRangeOfClosestMentionString(selStart, selEnd);
       if (closestRange != null && closestRange.getTo() == selEnd) {
         mIsSelected = false;
       }
 
-      Range nearbyRange = mRangeListenerManager.getRangeOfNearbyMentionString(selStart, selEnd);
+      Range nearbyRange = mRangeManager.getRangeOfNearbyMentionString(selStart, selEnd);
       //if there is no mention string nearby the cursor, just skip
       if (nearbyRange == null) {
         return;
@@ -205,7 +203,10 @@ public class MentionEditText extends EditText {
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
-  private RangeListenerManager mRangeListenerManager;
+
+  public RangeManager getRangeManager() {
+    return mRangeManager;
+  }
 
   @Override public boolean isSelected() {
     return mIsSelected;

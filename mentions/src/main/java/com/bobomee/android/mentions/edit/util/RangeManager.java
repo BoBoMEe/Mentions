@@ -44,7 +44,29 @@ public class RangeManager {
       mRangeArrayList = new ArrayList<>();
     }
   }
+  public Range getRangeOfClosestMentionString(int selStart, int selEnd) {
+    if (mRangeArrayList == null) {
+      return null;
+    }
+    for (Range range : mRangeArrayList) {
+      if (range.contains(selStart, selEnd)) {
+        return range;
+      }
+    }
+    return null;
+  }
 
+  public Range getRangeOfNearbyMentionString(int selStart, int selEnd) {
+    if (mRangeArrayList == null) {
+      return null;
+    }
+    for (Range range : mRangeArrayList) {
+      if (range.isWrappedBy(selStart, selEnd)) {
+        return range;
+      }
+    }
+    return null;
+  }
   ////////////
   private Range mLastSelectedRange;
 
@@ -55,4 +77,5 @@ public class RangeManager {
   public void setLastSelectedRange(Range lastSelectedRange) {
     mLastSelectedRange = lastSelectedRange;
   }
+
 }
