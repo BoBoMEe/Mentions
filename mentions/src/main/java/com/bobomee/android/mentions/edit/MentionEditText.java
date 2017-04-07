@@ -28,6 +28,7 @@ import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
 import com.bobomee.android.mentions.edit.util.HackInputConnection;
 import com.bobomee.android.mentions.edit.listener.RangeListenerManager;
+import com.bobomee.android.mentions.edit.util.RangeManager;
 import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.model.TagRange;
 import com.bobomee.android.mentions.model.UserRange;
@@ -44,9 +45,6 @@ public class MentionEditText extends EditText {
   private Runnable mAction;
 
   private boolean mIsSelected;
-
-  private Range mLastSelectedRange;
-  private ArrayList<Range> mRangeArrayList;
 
   public MentionEditText(Context context) {
     super(context);
@@ -86,7 +84,7 @@ public class MentionEditText extends EditText {
   @Override protected void onSelectionChanged(int selStart, int selEnd) {
     super.onSelectionChanged(selStart, selEnd);
     //avoid infinite recursion after calling setSelection()
-    if (mLastSelectedRange != null && mLastSelectedRange.isEqual(selStart, selEnd)) {
+    if (null != mRangeManager&&mRangeManager.isEqual(selStart, selEnd)) {
       return;
     }
 
@@ -130,7 +128,7 @@ public class MentionEditText extends EditText {
     int end = start + name.length();
     editable.insert(start, name);
     Range range = new UserRange(uid, name, start - 1, end);
-    mRangeArrayList.add(range);
+    mRangeManager.add(range);
     if (getConfig().isSupportAt()) {
       editable.setSpan(new ForegroundColorSpan(getConfig().getAtEditTextColor()), start - 1, end,
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -143,7 +141,7 @@ public class MentionEditText extends EditText {
     int end = start + tagLabel.length() + 1;
     editable.insert(start, tagLabel + getConfig().getTagChar());
     Range range = new TagRange(tagId, tagLabel, start - 1, end);
-    mRangeArrayList.add(range);
+    mRangeManager.add(range);
     if (getConfig().isSupportTag()) {
       editable.setSpan(new ForegroundColorSpan(getConfig().getTagEditTextColor()), start - 1, end,
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -157,20 +155,19 @@ public class MentionEditText extends EditText {
    */
   public String convertMetionString() {
     String text = getText().toString();
-    if (mRangeArrayList.isEmpty()) {
+    if (mRangeManager.isEmpty()) {
       return text;
     }
 
     StringBuilder builder = new StringBuilder("");
     int lastRangeTo = 0;
-    Collections.sort(mRangeArrayList);
+    Collections.sort(mRangeManager.get());
     String newChar = "";
-    for (Range range : mRangeArrayList) {
+    for (Range range : mRangeManager.get()) {
       switch (range.getType()) {
         case Range.TYPE_USER:
           if (getConfig().isSupportAt()) {
-            newChar =
-                String.format(getConfig().getAtTextFormat(), range.getLable(), range.getId());
+            newChar = String.format(getConfig().getAtTextFormat(), range.getLable(), range.getId());
           } else {
             newChar = getConfig().getAtChar() + range.getLable();
           }
@@ -195,12 +192,14 @@ public class MentionEditText extends EditText {
   }
 
   public void clear() {
-    mRangeArrayList.clear();
+    mRangeManager.clear();
     setText("");
   }
 
+  private RangeManager mRangeManager;
+
   private void init() {
-    mRangeArrayList = new ArrayList<>();
+    mRangeManager = new RangeManager();
     //disable suggestion
     addTextChangedListener(new MentionTextWatcher(this));
   }
@@ -217,11 +216,11 @@ public class MentionEditText extends EditText {
   }
 
   public void setLastSelectedRange(Range lastSelectedRange) {
-    mLastSelectedRange = lastSelectedRange;
+    mRangeManager.setLastSelectedRange(lastSelectedRange);
   }
 
   public ArrayList<Range> getRangeArrayList() {
-    return mRangeArrayList;
+    return mRangeManager.get();
   }
 
   private ConfigFactory.Config getConfig() {
