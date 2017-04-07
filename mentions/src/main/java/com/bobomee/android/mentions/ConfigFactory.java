@@ -5,7 +5,6 @@ import android.graphics.Color;
 import static com.bobomee.android.mentions.ConfigFactory.Config.sConfig;
 
 /**
- *
  * Resume:
  *
  * @author 汪波
@@ -33,211 +32,199 @@ public enum ConfigFactory {
 
   public static class Config {
 
+    private Config(Builder builder) {
+      supportAt = builder.supportAt;
+      supportTag = builder.supportTag;
+      mAtChar = builder.mAtChar;
+      mTagChar = builder.mTagChar;
+      mAtTextFormat = builder.mAtTextFormat;
+      mTagTextFormat = builder.mTagTextFormat;
+      mAtEditTextColor = builder.mAtEditTextColor;
+      mTagEditTextColor = builder.mTagEditTextColor;
+    }
+
     static Config sConfig() {
       return new Config.Builder().build();
     }
 
     private boolean supportAt = true;
     private boolean supportTag = true;
-    private boolean supportLink = true;
-    private char mentionChar = '@';
+    private char mAtChar = '@';
     private char mTagChar = '#';
-    private String mMentionTextFormat = "(@%s,id=%s)";
+    private String mAtTextFormat = "(@%s,id=%s)";
     private String mTagTextFormat = "#%s#";
-    private int mMentionTextColor = Color.RED;
-    private int mTagTextColor = Color.BLUE;
-    private int mUrlTextColor = Color.GRAY;
-    private int mMentionEditColor = Color.RED;
-    private int mTagEditColor = Color.BLUE;
+    private int mAtEditTextColor = Color.RED;
+    private int mTagEditTextColor = Color.BLUE;
 
-    private Config(Builder builder) {
-      setSupportAt(builder.supportAt);
-      setSupportTag(builder.supportTag);
-      setSupportLink(builder.supportLink);
-      setMentionChar(builder.mentionChar);
-      setTagChar(builder.mTagChar);
-      setMentionTextFormat(builder.mMentionTextFormat);
-      setTagTextFormat(builder.mTagTextFormat);
-      setMentionTextColor(builder.mMentionTextColor);
-      setTagTextColor(builder.mTagTextColor);
-      setUrlTextColor(builder.mUrlTextColor);
-      setMentionEditColor(builder.mMentionEditColor);
-      setTagEditColor(builder.mTagEditColor);
+    public static Builder newBuilder() {
+      return new Builder();
+    }
+
+    public static Builder newBuilder(Config copy) {
+      Builder builder = new Builder();
+      builder.supportAt = copy.supportAt;
+      builder.supportTag = copy.supportTag;
+      builder.mAtChar = copy.mAtChar;
+      builder.mTagChar = copy.mTagChar;
+      builder.mAtTextFormat = copy.mAtTextFormat;
+      builder.mTagTextFormat = copy.mTagTextFormat;
+      builder.mAtEditTextColor = copy.mAtEditTextColor;
+      builder.mTagEditTextColor = copy.mTagEditTextColor;
+      return builder;
     }
 
     public boolean isSupportAt() {
       return supportAt;
     }
 
-    public void setSupportAt(boolean supportAt) {
-      this.supportAt = supportAt;
-    }
-
     public boolean isSupportTag() {
       return supportTag;
     }
 
-    public void setSupportTag(boolean supportTag) {
-      this.supportTag = supportTag;
-    }
-
-    public boolean isSupportLink() {
-      return supportLink;
-    }
-
-    public void setSupportLink(boolean supportLink) {
-      this.supportLink = supportLink;
-    }
-
-    public char getMentionChar() {
-      return mentionChar;
-    }
-
-    public void setMentionChar(char mentionChar) {
-      this.mentionChar = mentionChar;
+    public char getAtChar() {
+      return mAtChar;
     }
 
     public char getTagChar() {
       return mTagChar;
     }
 
-    public void setTagChar(char tagChar) {
-      mTagChar = tagChar;
-    }
-
-    public String getMentionTextFormat() {
-      return mMentionTextFormat;
-    }
-
-    public void setMentionTextFormat(String mentionTextFormat) {
-      mMentionTextFormat = mentionTextFormat;
+    public String getAtTextFormat() {
+      return mAtTextFormat;
     }
 
     public String getTagTextFormat() {
       return mTagTextFormat;
     }
 
-    public void setTagTextFormat(String tagTextFormat) {
-      mTagTextFormat = tagTextFormat;
+    public int getAtEditTextColor() {
+      return mAtEditTextColor;
     }
 
-    public int getUrlTextColor() {
-      return mUrlTextColor;
+    public int getTagEditTextColor() {
+      return mTagEditTextColor;
     }
 
-    public int getMentionTextColor() {
-      return mMentionTextColor;
-    }
-
-    public int getTagTextColor() {
-      return mTagTextColor;
-    }
-
-    public void setUrlTextColor(int urlTextColor) {
-      mUrlTextColor = urlTextColor;
-    }
-
-    public void setMentionTextColor(int mentionTextColor) {
-      mMentionTextColor = mentionTextColor;
-    }
-
-    public void setTagTextColor(int tagTextColor) {
-      mTagTextColor = tagTextColor;
-    }
-
-    public int getMentionEditColor() {
-      return mMentionEditColor;
-    }
-
-    public void setMentionEditColor(int mentionEditColor) {
-      mMentionEditColor = mentionEditColor;
-    }
-
-    public int getTagEditColor() {
-      return mTagEditColor;
-    }
-
-    public void setTagEditColor(int tagEditColor) {
-      mTagEditColor = tagEditColor;
-    }
-
+    /**
+     * {@code Config} builder static inner class.
+     */
     public static final class Builder {
       private boolean supportAt = true;
       private boolean supportTag = true;
-      private boolean supportLink = true;
-      private char mentionChar = '@';
+      private char mAtChar = '@';
       private char mTagChar = '#';
-      private String mMentionTextFormat = "(@%s,id=%s)";
+      private String mAtTextFormat = "(@%s,id=%s)";
       private String mTagTextFormat = "#%s#";
-      private int mMentionTextColor = Color.RED;
-      private int mTagTextColor = Color.BLUE;
-      private int mUrlTextColor = Color.GRAY;
-      private int mMentionEditColor = Color.RED;
-      private int mTagEditColor = Color.BLUE;
+      private int mAtEditTextColor = Color.RED;
+      private int mTagEditTextColor = Color.BLUE;
 
-      public Builder() {
+      private Builder() {
       }
 
-      public Builder supportAt(boolean val) {
-        supportAt = val;
+      /**
+       * Sets the {@code supportAt} and returns a reference to this Builder so that the methods can
+       * be chained together.
+       *
+       * @param supportAt the {@code supportAt} to set
+       * @return a reference to this Builder
+       */
+      public Builder supportAt(boolean supportAt) {
+        this.supportAt = supportAt;
         return this;
       }
 
-      public Builder supportTag(boolean val) {
-        supportTag = val;
+      /**
+       * Sets the {@code supportTag} and returns a reference to this Builder so that the methods
+       * can
+       * be chained together.
+       *
+       * @param supportTag the {@code supportTag} to set
+       * @return a reference to this Builder
+       */
+      public Builder supportTag(boolean supportTag) {
+        this.supportTag = supportTag;
         return this;
       }
 
-      public Builder supportLink(boolean val) {
-        supportLink = val;
+      /**
+       * Sets the {@code mAtChar} and returns a reference to this Builder so that the methods can
+       * be
+       * chained together.
+       *
+       * @param mAtChar the {@code mAtChar} to set
+       * @return a reference to this Builder
+       */
+      public Builder mAtChar(char mAtChar) {
+        this.mAtChar = mAtChar;
         return this;
       }
 
-      public Builder mentionChar(char val) {
-        mentionChar = val;
+      /**
+       * Sets the {@code mTagChar} and returns a reference to this Builder so that the methods can
+       * be chained together.
+       *
+       * @param mTagChar the {@code mTagChar} to set
+       * @return a reference to this Builder
+       */
+      public Builder mTagChar(char mTagChar) {
+        this.mTagChar = mTagChar;
         return this;
       }
 
-      public Builder mTagChar(char val) {
-        mTagChar = val;
+      /**
+       * Sets the {@code mAtTextFormat} and returns a reference to this Builder so that the methods
+       * can be chained together.
+       *
+       * @param mAtTextFormat the {@code mAtTextFormat} to set
+       * @return a reference to this Builder
+       */
+      public Builder mAtTextFormat(String mAtTextFormat) {
+        this.mAtTextFormat = mAtTextFormat;
         return this;
       }
 
-      public Builder mMentionTextFormat(String val) {
-        mMentionTextFormat = val;
+      /**
+       * Sets the {@code mTagTextFormat} and returns a reference to this Builder so that the
+       * methods
+       * can be chained together.
+       *
+       * @param mTagTextFormat the {@code mTagTextFormat} to set
+       * @return a reference to this Builder
+       */
+      public Builder mTagTextFormat(String mTagTextFormat) {
+        this.mTagTextFormat = mTagTextFormat;
         return this;
       }
 
-      public Builder mTagTextFormat(String val) {
-        mTagTextFormat = val;
+      /**
+       * Sets the {@code mAtEditTextColor} and returns a reference to this Builder so that the
+       * methods can be chained together.
+       *
+       * @param mAtEditTextColor the {@code mAtEditTextColor} to set
+       * @return a reference to this Builder
+       */
+      public Builder mAtEditTextColor(int mAtEditTextColor) {
+        this.mAtEditTextColor = mAtEditTextColor;
         return this;
       }
 
-      public Builder mMentionTextColor(int val) {
-        mMentionTextColor = val;
+      /**
+       * Sets the {@code mTagEditTextColor} and returns a reference to this Builder so that the
+       * methods can be chained together.
+       *
+       * @param mTagEditTextColor the {@code mTagEditTextColor} to set
+       * @return a reference to this Builder
+       */
+      public Builder mTagEditTextColor(int mTagEditTextColor) {
+        this.mTagEditTextColor = mTagEditTextColor;
         return this;
       }
 
-      public Builder mTagTextColor(int val) {
-        mTagTextColor = val;
-        return this;
-      }
-
-      public Builder mUrlTextColor(int val) {
-        mUrlTextColor = val;
-        return this;
-      }
-
-      public Builder mMentionEditColor(int val) {
-        mMentionEditColor = val;
-        return this;
-      }
-
-      public Builder mTagEditColor(int val) {
-        mTagEditColor = val;
-        return this;
-      }
-
+      /**
+       * Returns a {@code Config} built from the parameters previously set.
+       *
+       * @return a {@code Config} built with parameters of this {@code Config.Builder}
+       */
       public Config build() {
         return new Config(this);
       }

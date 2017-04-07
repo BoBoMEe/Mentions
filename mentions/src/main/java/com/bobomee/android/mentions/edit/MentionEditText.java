@@ -26,11 +26,8 @@ import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
 import com.bobomee.android.mentions.ConfigFactory;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
-import com.bobomee.android.mentions.edit.listener.OnMentionInput;
-import com.bobomee.android.mentions.edit.listener.OnMentionInputListener;
 import com.bobomee.android.mentions.edit.util.HackInputConnection;
-import com.bobomee.android.mentions.listener.manager.ListenerManager;
-import com.bobomee.android.mentions.listener.manager.RangeListenerManager;
+import com.bobomee.android.mentions.edit.listener.RangeListenerManager;
 import com.bobomee.android.mentions.model.Range;
 import com.bobomee.android.mentions.model.TagRange;
 import com.bobomee.android.mentions.model.UserRange;
@@ -135,7 +132,7 @@ public class MentionEditText extends EditText {
     Range range = new UserRange(uid, name, start - 1, end);
     mRangeArrayList.add(range);
     if (getConfig().isSupportAt()) {
-      editable.setSpan(new ForegroundColorSpan(getConfig().getMentionEditColor()), start - 1, end,
+      editable.setSpan(new ForegroundColorSpan(getConfig().getAtEditTextColor()), start - 1, end,
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
   }
@@ -148,7 +145,7 @@ public class MentionEditText extends EditText {
     Range range = new TagRange(tagId, tagLabel, start - 1, end);
     mRangeArrayList.add(range);
     if (getConfig().isSupportTag()) {
-      editable.setSpan(new ForegroundColorSpan(getConfig().getTagEditColor()), start - 1, end,
+      editable.setSpan(new ForegroundColorSpan(getConfig().getTagEditTextColor()), start - 1, end,
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
   }
@@ -173,9 +170,9 @@ public class MentionEditText extends EditText {
         case Range.TYPE_USER:
           if (getConfig().isSupportAt()) {
             newChar =
-                String.format(getConfig().getMentionTextFormat(), range.getLable(), range.getId());
+                String.format(getConfig().getAtTextFormat(), range.getLable(), range.getId());
           } else {
-            newChar = getConfig().getMentionChar() + range.getLable();
+            newChar = getConfig().getAtChar() + range.getLable();
           }
           break;
         case Range.TYPE_TAG:
@@ -210,19 +207,6 @@ public class MentionEditText extends EditText {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   private RangeListenerManager mRangeListenerManager;
-
-  private ListenerManager mListenerManager = ListenerManager.INSTANCE;
-
-  public void addOnMentionInputListener(OnMentionInputListener mentionInputListener) {
-    mListenerManager.addOnMentionInputListener(mentionInputListener);
-  }
-
-  public void setOnMentionInputListener(OnMentionInputListener mentionInputListener) {
-    OnMentionInput onMentionInput = mListenerManager.getOnMentionInput();
-    if (!onMentionInput.hasListener()) {
-      addOnMentionInputListener(mentionInputListener);
-    }
-  }
 
   @Override public boolean isSelected() {
     return mIsSelected;
