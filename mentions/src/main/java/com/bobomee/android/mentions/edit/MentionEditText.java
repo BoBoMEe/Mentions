@@ -28,6 +28,7 @@ import android.widget.EditText;
 import com.bobomee.android.mentions.edit.listener.MentionInputConnection;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
 import com.bobomee.android.mentions.edit.util.RangeManager;
+import com.bobomee.android.mentions.model.Model;
 import com.bobomee.android.mentions.model.Range;
 
 /**
@@ -101,23 +102,25 @@ public class MentionEditText extends EditText {
     }
   }
 
-  public void insert(CharSequence name) {
+  public <T extends Model> void insert(T model) {
+    CharSequence charSequence = model.getCharSequence();
     Editable editable = getText();
     int start = getSelectionStart();
-    int end = start + name.length();
-    editable.insert(start, name);
+    int end = start + charSequence.length();
+    editable.insert(start, charSequence);
 
-    Range range = provideRange(start, end, name);
+    Range range = provideRange(start, end, model);
     mRangeManager.add(range);
 
-    editable.setSpan(new ForegroundColorSpan(provideRangeColor(range)), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    editable.setSpan(new ForegroundColorSpan(provideRangeColor(model)), start, end,
+        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
   }
 
-  public Range provideRange(int start, int end, CharSequence lable) {
+  public <T extends Model>  Range provideRange(int start, int end, T model) {
     return new Range(start, end);
   }
 
-  public int provideRangeColor(Range range) {
+  public <T extends Model> int provideRangeColor(T model) {
     return Color.RED;
   }
 
@@ -147,5 +150,4 @@ public class MentionEditText extends EditText {
   @Override public void setSelected(boolean selected) {
     mIsSelected = selected;
   }
-
 }

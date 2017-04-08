@@ -70,10 +70,13 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (count == 1 && !TextUtils.isEmpty(s)) {
           char mentionChar = s.toString().charAt(start);
+          int selectionStart = mMentionedittext.getSelectionStart();
           if (mentionChar == '@') {
             startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
+            mMentionedittext.getText().delete(selectionStart-1,selectionStart);
           } else if (mentionChar == '#') {
             startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
+            mMentionedittext.getText().delete(selectionStart-1,selectionStart);
           }
         }
       }
@@ -88,12 +91,12 @@ public class MainActivity extends AppCompatActivity {
     if (resultCode == Activity.RESULT_OK && null != data) {
       switch (requestCode) {
         case REQUEST_USER_APPEND:
-          User user = data.getParcelableExtra(UserList.RESULT_USER);
-          mMentionedittext.insert("@" + user.getUserName());
+          User user = (User) data.getSerializableExtra(UserList.RESULT_USER);
+          mMentionedittext.insert(user);
           break;
         case REQUEST_TAG_APPEND:
-          Tag tag = data.getParcelableExtra(TagList.RESULT_TAG);
-          mMentionedittext.insert("#" + tag.getTagLable() + "#");
+          Tag tag = (Tag) data.getSerializableExtra(TagList.RESULT_TAG);
+          mMentionedittext.insert(tag);
           break;
       }
     }

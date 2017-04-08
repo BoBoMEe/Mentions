@@ -28,34 +28,32 @@ public class MentionTextWatcher implements TextWatcher {
   @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     Editable editable = mEditText.getText();
     //在末尾增加就不需要处理了
-    if (start >= editable.length()) {
-      return;
-    }
+    if (start < editable.length()) {
+      int end = start + count;
+      int offset = after - count;
 
-    int end = start + count;
-    int offset = after - count;
-
-    //清理start 到 start + count之间的span
-    //如果range.from = 0，也会被getSpans(0,0,ForegroundColorSpan.class)获取到
-    if (start != end && !mRangeManager.isEmpty()) {
-      ForegroundColorSpan[] spans = editable.getSpans(start, end, ForegroundColorSpan.class);
-      for (ForegroundColorSpan span : spans) {
-        editable.removeSpan(span);
-      }
-    }
-
-    //清理arraylist中上面已经清理掉的range
-    //将end之后的span往后挪offset个位置
-    Iterator iterator = mRangeManager.iterator();
-    while (iterator.hasNext()) {
-      Range range = (Range) iterator.next();
-      if (range.isWrapped(start, end)) {
-        iterator.remove();
-        continue;
+      //清理start 到 start + count之间的span
+      //如果range.from = 0，也会被getSpans(0,0,ForegroundColorSpan.class)获取到
+      if (start != end && !mRangeManager.isEmpty()) {
+        ForegroundColorSpan[] spans = editable.getSpans(start, end, ForegroundColorSpan.class);
+        for (ForegroundColorSpan span : spans) {
+          editable.removeSpan(span);
+        }
       }
 
-      if (range.getFrom() >= end) {
-        range.setOffset(offset);
+      //清理arraylist中上面已经清理掉的range
+      //将end之后的span往后挪offset个位置
+      Iterator iterator = mRangeManager.iterator();
+      while (iterator.hasNext()) {
+        Range range = (Range) iterator.next();
+        if (range.isWrapped(start, end)) {
+          iterator.remove();
+          continue;
+        }
+
+        if (range.getFrom() >= end) {
+          range.setOffset(offset);
+        }
       }
     }
   }

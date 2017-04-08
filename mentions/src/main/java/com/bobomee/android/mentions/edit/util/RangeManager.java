@@ -17,15 +17,15 @@ public class RangeManager {
   private ArrayList<Range> mRangeArrayList;
 
   public RangeManager() {
-    mRangeArrayList = new ArrayList<Range>();
+    mRangeArrayList = new ArrayList<>();
   }
 
-  public ArrayList<Range> get() {
+  public ArrayList<? extends Range> get() {
     ensureListNonNull();
     return mRangeArrayList;
   }
 
-  public void add(Range range) {
+  public <T extends Range>void add(T range) {
     ensureListNonNull();
     mRangeArrayList.add(range);
   }
@@ -40,7 +40,7 @@ public class RangeManager {
     return mRangeArrayList.isEmpty();
   }
 
-  public Iterator<Range> iterator(){
+  public Iterator<? extends Range> iterator(){
     ensureListNonNull();
     return mRangeArrayList.iterator();
   }

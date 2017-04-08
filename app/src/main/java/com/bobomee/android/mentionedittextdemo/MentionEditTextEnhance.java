@@ -5,11 +5,11 @@ import android.graphics.Color;
 import android.util.AttributeSet;
 import com.bobomee.android.mentionedittextdemo.model.Lable;
 import com.bobomee.android.mentions.edit.MentionEditText;
+import com.bobomee.android.mentions.model.Model;
 import com.bobomee.android.mentions.model.Range;
 import java.util.Collections;
 
 /**
- * Project ID：400YF17051<br/>
  * Resume:
  *
  * @author 汪波
@@ -30,30 +30,24 @@ public class MentionEditTextEnhance extends MentionEditText {
     super(context, attrs, defStyleAttr);
   }
 
-  @Override public Range provideRange(int start, int end, CharSequence lable) {
-    if (lable.toString().startsWith("@")) {
-      return new Lable("user_id", lable, start, end, Lable.TYPE_USER);
-    } else if (lable.toString().startsWith("#")) {
-      return new Lable("tag_id", lable, start, end, Lable.TYPE_TAG);
+  @Override public <T extends Model> Range provideRange(int start, int end, T model) {
+    if (model instanceof User) {
+      User user = (User) model;
+      return new Lable(start, end,user);
+    } else if (model instanceof Tag) {
+      Tag tag = (Tag) model;
+      return new Lable( start, end,tag);
     }
-    return super.provideRange(start, end, lable);
+    return super.provideRange(start, end, model);
   }
 
-  @Override public int provideRangeColor(Range range) {
-    int result = super.provideRangeColor(range);
-    if (range instanceof Lable) {
-      Lable lable = (Lable) range;
-      int type = lable.getType();
-      switch (type) {
-        case Lable.TYPE_USER:
-          result = Color.BLUE;
-          break;
-        case Lable.TYPE_TAG:
-          result = Color.CYAN;
-          break;
-      }
+  @Override public <T extends Model> int provideRangeColor(T model) {
+    if (model instanceof User) {
+      return Color.BLUE;
+    } else if (model instanceof Tag) {
+      return Color.CYAN;
     }
-    return result;
+    return super.provideRangeColor(model);
   }
 
   public CharSequence convertMetionString() {
@@ -65,20 +59,11 @@ public class MentionEditTextEnhance extends MentionEditText {
     StringBuilder builder = new StringBuilder("");
     int lastRangeTo = 0;
     Collections.sort(mRangeManager.get());
-    String newChar = "";
+    String newChar;
     for (Range range : mRangeManager.get()) {
-
       if (range instanceof Lable) {
         Lable lable = (Lable) range;
-        switch (lable.getType()) {
-          case Lable.TYPE_USER:
-            newChar = String.format("(%s,id=%s)", lable.getLable(), lable.getId());
-            break;
-          case Lable.TYPE_TAG:
-            newChar = String.format("(%s)", lable.getLable());
-            break;
-        }
-
+        newChar = lable.getFormat();
         builder.append(text.substring(lastRangeTo, range.getFrom()));
         builder.append(newChar);
         lastRangeTo = range.getTo();

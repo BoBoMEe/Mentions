@@ -1,7 +1,7 @@
 package com.bobomee.android.mentionedittextdemo;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.bobomee.android.mentions.model.Model;
+import java.io.Serializable;
 
 /**
  *
@@ -12,57 +12,30 @@ import android.os.Parcelable;
  * @see
  * @since 2017/4/3 汪波 first commit
  */
-public class User  implements Parcelable{
+public class User extends Model implements Serializable{
 
-  private String userId;
-  private String userName;
+  private CharSequence userId;
+  private CharSequence userName;
+  private CharSequence userSex;
 
-  private String userSex;
-
-  ///....
-
-  public User(String userId, String userName) {
+  public User(CharSequence userId, CharSequence userName) {
+    super("@"+userName);
     this.userId = userId;
     this.userName = userName;
   }
 
-  protected User(Parcel in) {
-    userId = in.readString();
-    userName = in.readString();
-    userSex = in.readString();
-  }
-
-  public static final Creator<User> CREATOR = new Creator<User>() {
-    @Override public User createFromParcel(Parcel in) {
-      return new User(in);
-    }
-
-    @Override public User[] newArray(int size) {
-      return new User[size];
-    }
-  };
-
-  public String getUserId() {
+  public CharSequence getUserId() {
     return userId;
   }
 
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
-
-  public String getUserName() {
+  public CharSequence getUserName() {
     return userName;
   }
-
-  public void setUserName(String userName) {
-    this.userName = userName;
-  }
-
-  public String getUserSex() {
+  public CharSequence getUserSex() {
     return userSex;
   }
 
-  public void setUserSex(String userSex) {
+  public void setUserSex(CharSequence userSex) {
     this.userSex = userSex;
   }
 
@@ -74,9 +47,7 @@ public class User  implements Parcelable{
 
     if (userId != null ? !userId.equals(user.userId) : user.userId != null) return false;
     if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
-    if (userSex != null ? !userSex.equals(user.userSex) : user.userSex != null) return false;
-
-    return true;
+    return userSex != null ? userSex.equals(user.userSex) : user.userSex == null;
   }
 
   @Override public int hashCode() {
@@ -84,15 +55,5 @@ public class User  implements Parcelable{
     result = 31 * result + (userName != null ? userName.hashCode() : 0);
     result = 31 * result + (userSex != null ? userSex.hashCode() : 0);
     return result;
-  }
-
-  @Override public int describeContents() {
-    return 0;
-  }
-
-  @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(userId);
-    dest.writeString(userName);
-    dest.writeString(userSex);
   }
 }

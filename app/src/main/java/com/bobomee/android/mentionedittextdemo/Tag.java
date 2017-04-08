@@ -1,7 +1,7 @@
 package com.bobomee.android.mentionedittextdemo;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import com.bobomee.android.mentions.model.Model;
+import java.io.Serializable;
 
 /**
  *
@@ -12,56 +12,33 @@ import android.os.Parcelable;
  * @see
  * @since 2017/4/3 汪波 first commit
  */
-public class Tag  implements Parcelable{
+public class Tag  extends Model implements Serializable{
 
-  private String tagLable;
-  private String tagId;
+  private CharSequence tagLable;
+  private CharSequence tagId;
 
-  private String tagUrl;
+  private CharSequence tagUrl;
   //....
 
-  public Tag(String tagLable, String tagId) {
+  public Tag(CharSequence tagLable, CharSequence tagId) {
+    super("#"+tagLable+"#");
     this.tagLable = tagLable;
     this.tagId = tagId;
   }
 
-  protected Tag(Parcel in) {
-    tagLable = in.readString();
-    tagId = in.readString();
-    tagUrl = in.readString();
-  }
-
-  public static final Creator<Tag> CREATOR = new Creator<Tag>() {
-    @Override public Tag createFromParcel(Parcel in) {
-      return new Tag(in);
-    }
-
-    @Override public Tag[] newArray(int size) {
-      return new Tag[size];
-    }
-  };
-
-  public String getTagLable() {
+  public CharSequence getTagLable() {
     return tagLable;
   }
 
-  public void setTagLable(String tagLable) {
-    this.tagLable = tagLable;
-  }
-
-  public String getTagId() {
+  public CharSequence getTagId() {
     return tagId;
   }
 
-  public void setTagId(String tagId) {
-    this.tagId = tagId;
-  }
-
-  public String getTagUrl() {
+  public CharSequence getTagUrl() {
     return tagUrl;
   }
 
-  public void setTagUrl(String tagUrl) {
+  public void setTagUrl(CharSequence tagUrl) {
     this.tagUrl = tagUrl;
   }
 
@@ -81,15 +58,5 @@ public class Tag  implements Parcelable{
     result = 31 * result + (tagId != null ? tagId.hashCode() : 0);
     result = 31 * result + (tagUrl != null ? tagUrl.hashCode() : 0);
     return result;
-  }
-
-  @Override public int describeContents() {
-    return 0;
-  }
-
-  @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(tagLable);
-    dest.writeString(tagId);
-    dest.writeString(tagUrl);
   }
 }
