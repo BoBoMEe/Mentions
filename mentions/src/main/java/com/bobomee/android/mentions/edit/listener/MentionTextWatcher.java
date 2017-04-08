@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import com.bobomee.android.mentions.edit.MentionEditText;
+import com.bobomee.android.mentions.edit.util.RangeManager;
 import com.bobomee.android.mentions.model.Range;
 import java.util.Iterator;
 
@@ -16,9 +17,11 @@ import java.util.Iterator;
  */
 public class MentionTextWatcher implements TextWatcher {
   private final MentionEditText mEditText;
+  private final RangeManager mRangeManager;
 
   public MentionTextWatcher(MentionEditText editText) {
     this.mEditText = editText;
+    this.mRangeManager = mEditText.getRangeManager();
   }
 
   //若从整串string中间插入字符，需要将插入位置后面的range相应地挪位
@@ -34,7 +37,7 @@ public class MentionTextWatcher implements TextWatcher {
 
     //清理start 到 start + count之间的span
     //如果range.from = 0，也会被getSpans(0,0,ForegroundColorSpan.class)获取到
-    if (start != end && !mEditText.getRangeArrayList().isEmpty()) {
+    if (start != end && !mRangeManager.isEmpty()) {
       ForegroundColorSpan[] spans = editable.getSpans(start, end, ForegroundColorSpan.class);
       for (ForegroundColorSpan span : spans) {
         editable.removeSpan(span);
@@ -43,7 +46,7 @@ public class MentionTextWatcher implements TextWatcher {
 
     //清理arraylist中上面已经清理掉的range
     //将end之后的span往后挪offset个位置
-    Iterator iterator = mEditText.getRangeArrayList().iterator();
+    Iterator iterator = mRangeManager.iterator();
     while (iterator.hasNext()) {
       Range range = (Range) iterator.next();
       if (range.isWrapped(start, end)) {

@@ -2,7 +2,6 @@ package com.bobomee.android.mentionedittextdemo;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -11,13 +10,11 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.bobomee.android.mentions.ConfigFactory;
-import com.bobomee.android.mentions.edit.MentionEditText;
 
 public class MainActivity extends AppCompatActivity {
 
   private MainActivity mMainActivity;
-  private MentionEditText mMentionedittext;
+  private MentionEditTextEnhance mMentionedittext;
   private Button mBtnCovert;
   private TextView mCovertedString;
   private Button mAtUser;
@@ -35,33 +32,26 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void initView() {
-    mMentionedittext = (MentionEditText) findViewById(R.id.mentionedittext);
+    mMentionedittext = (MentionEditTextEnhance) findViewById(R.id.mentionedittext);
     mBtnCovert = (Button) findViewById(R.id.btn_covert);
     mCovertedString = (TextView) findViewById(R.id.coverted_string);
     mBtnClear = (Button) findViewById(R.id.btn_clear);
     mAtUser = (Button) findViewById(R.id.at_user);
     mTopic = (Button) findViewById(R.id.topic);
 
-    ConfigFactory.INSTANCE.config(ConfigFactory.Config.newBuilder()
-        //.supportAt(false)
-        //.supportTag(false)
-        .mAtEditTextColor(Color.BLUE)
-        .mTagEditTextColor(Color.CYAN)
-        .build());
-
     mAtUser.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        mMentionedittext.append("@");
+        startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
       }
     });
     mTopic.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        mMentionedittext.append("#");
+        startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
       }
     });
     mBtnCovert.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
-        String convertMetionString = mMentionedittext.convertMetionString();
+        CharSequence convertMetionString = mMentionedittext.convertMetionString();
         mCovertedString.setText(convertMetionString);
       }
     });
@@ -80,11 +70,9 @@ public class MainActivity extends AppCompatActivity {
       @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
         if (count == 1 && !TextUtils.isEmpty(s)) {
           char mentionChar = s.toString().charAt(start);
-          ConfigFactory.Config config = ConfigFactory.INSTANCE.config();
-          if (mentionChar == config.getAtChar()
-              ) {
+          if (mentionChar == '@') {
             startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
-          }else if (mentionChar == config.getTagChar()){
+          } else if (mentionChar == '#') {
             startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
           }
         }
@@ -101,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
       switch (requestCode) {
         case REQUEST_USER_APPEND:
           User user = data.getParcelableExtra(UserList.RESULT_USER);
-          mMentionedittext.appendUser(user.getUserId(), user.getUserName());
+          mMentionedittext.insert("@" + user.getUserName());
           break;
         case REQUEST_TAG_APPEND:
           Tag tag = data.getParcelableExtra(TagList.RESULT_TAG);
-          mMentionedittext.appendTag(tag.getTagId(), tag.getTagLable());
+          mMentionedittext.insert("#" + tag.getTagLable() + "#");
           break;
       }
     }

@@ -1,6 +1,7 @@
-package com.bobomee.android.mentions.model;
+package com.bobomee.android.mentionedittextdemo.model;
 
 import android.support.annotation.IntDef;
+import com.bobomee.android.mentions.model.Range;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -12,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
  * @version 1.0
  * @since 2017/4/3 汪波 first commit
  */
-public class BaseModel {
+public class Lable extends Range {
 
   public static final int TYPE_USER = 1;
   public static final int TYPE_TAG = 1 << 1;
@@ -22,20 +23,22 @@ public class BaseModel {
   }
 
   private final String mId;
-  private final String mLable;
+  private final CharSequence mLable;
 
-  @TYPE private int mType;
+  @TYPE private final int mType;
 
-  public BaseModel(String id, String lable) {
+  public Lable(String id, CharSequence lable,int from,int to,int type) {
+    super(from, to);
     mId = id;
     mLable = lable;
+    mType =type;
   }
 
   public String getId() {
     return mId;
   }
 
-  public String getLable() {
+  public CharSequence getLable() {
     return mLable;
   }
 
@@ -43,15 +46,11 @@ public class BaseModel {
     return mType;
   }
 
-  public void setType(@TYPE int type) {
-    mType = type;
-  }
-
   @Override public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
 
-    BaseModel baseModel = (BaseModel) o;
+    Lable baseModel = (Lable) o;
 
     if (mType != baseModel.mType) return false;
     if (mId != null ? !mId.equals(baseModel.mId) : baseModel.mId != null) return false;
@@ -66,7 +65,7 @@ public class BaseModel {
   }
 
   @Override public String toString() {
-    return "BaseModel{" +
+    return "Lable{" +
         "mId='" + mId + '\'' +
         ", mLable='" + mLable + '\'' +
         ", mType=" + mType +

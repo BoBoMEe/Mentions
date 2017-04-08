@@ -19,7 +19,7 @@
       >
 
 
-    <com.bobomee.android.mentions.edit.MentionEditText
+    <com.bobomee.android.mentionedittextdemo.MentionEditTextEnhance
         android:id="@+id/mentionedittext"
         android:layout_width="match_parent"
         android:layout_height="0dp"

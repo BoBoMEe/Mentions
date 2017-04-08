@@ -2,6 +2,7 @@ package com.bobomee.android.mentions.edit.util;
 
 import com.bobomee.android.mentions.model.Range;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Resume:
@@ -37,6 +38,11 @@ public class RangeManager {
   public boolean isEmpty() {
     ensureListNonNull();
     return mRangeArrayList.isEmpty();
+  }
+
+  public Iterator<Range> iterator(){
+    ensureListNonNull();
+    return mRangeArrayList.iterator();
   }
 
   private void ensureListNonNull() {

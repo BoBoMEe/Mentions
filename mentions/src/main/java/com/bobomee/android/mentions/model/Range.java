@@ -3,7 +3,6 @@ package com.bobomee.android.mentions.model;
 import android.support.annotation.NonNull;
 
 /**
- *
  * Resume:
  * //helper class to record the position of mention string in EditText
  *
@@ -11,12 +10,11 @@ import android.support.annotation.NonNull;
  * @version 1.0
  * @since 2017/4/2 汪波 first commit
  */
-public class Range extends BaseModel implements Comparable<Range> {
+public class Range implements Comparable<Range> {
   private int from;
   private int to;
 
-  public Range(String id, String name, int from, int to) {
-   super(id,name);
+  public Range(int from, int to) {
     this.from = from;
     this.to = to;
   }

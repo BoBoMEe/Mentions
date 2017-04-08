@@ -1,9 +1,10 @@
-package com.bobomee.android.mentions.edit.util;
+package com.bobomee.android.mentions.edit.listener;
 
 import android.view.KeyEvent;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 import com.bobomee.android.mentions.edit.MentionEditText;
+import com.bobomee.android.mentions.edit.util.RangeManager;
 import com.bobomee.android.mentions.model.Range;
 
 /**
@@ -12,25 +13,24 @@ import com.bobomee.android.mentions.model.Range;
  * @author 汪波
  * @version 1.0
  * @since 2017/4/2 汪波 first commit
- */
-public //handle the deletion action for mention string, such as '@test'
-class HackInputConnection extends InputConnectionWrapper {
+ *///handle the deletion action for mention string, such as '@test'
+public class MentionInputConnection extends InputConnectionWrapper {
   private final MentionEditText mEditText;
-  private final RangeManager mRangeListenerManager;
+  private final RangeManager mRangeManager;
 
-  public HackInputConnection(InputConnection target, boolean mutable, MentionEditText editText) {
+  public MentionInputConnection(InputConnection target, boolean mutable, MentionEditText editText) {
     super(target, mutable);
     this.mEditText = editText;
-    mRangeListenerManager = editText.getRangeManager();
+    this.mRangeManager = editText.getRangeManager();
   }
 
   @Override public boolean sendKeyEvent(KeyEvent event) {
     if (event.getAction() == KeyEvent.ACTION_DOWN && event.getKeyCode() == KeyEvent.KEYCODE_DEL) {
-      if (null != mRangeListenerManager) {
+      if (null != mRangeManager) {
         int selectionStart = mEditText.getSelectionStart();
         int selectionEnd = mEditText.getSelectionEnd();
         Range closestRange =
-            mRangeListenerManager.getRangeOfClosestMentionString(selectionStart, selectionEnd);
+            mRangeManager.getRangeOfClosestMentionString(selectionStart, selectionEnd);
         if (closestRange == null) {
           mEditText.setSelected(false);
           return super.sendKeyEvent(event);
@@ -42,7 +42,7 @@ class HackInputConnection extends InputConnectionWrapper {
         } else {
           //select the mention string
           mEditText.setSelected(true);
-          mEditText.setLastSelectedRange(closestRange);
+          mRangeManager.setLastSelectedRange(closestRange);
           setSelection(closestRange.getTo(), closestRange.getFrom());
         }
         return true;
@@ -57,9 +57,5 @@ class HackInputConnection extends InputConnectionWrapper {
           new KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_DEL));
     }
     return super.deleteSurroundingText(beforeLength, afterLength);
-  }
-
-  public RangeManager getRangeListenerManager() {
-    return mRangeListenerManager;
   }
 }
