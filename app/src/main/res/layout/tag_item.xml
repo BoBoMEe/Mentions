@@ -25,7 +25,7 @@
       />
   <View
       android:layout_width="match_parent"
-      android:background="@color/news_tab_color"
+      android:background="@color/press"
       android:layout_height="1px"/>
 
 </LinearLayout>

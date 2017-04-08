@@ -1,6 +1,9 @@
 package com.bobomee.android.mentionedittextdemo;
 
-import com.bobomee.android.mentions.model.Model;
+import android.graphics.Color;
+import com.bobomee.android.mentions.edit.listener.Convert;
+import com.bobomee.android.mentions.edit.listener.InsertData;
+import com.bobomee.android.mentions.model.Range;
 import java.io.Serializable;
 
 /**
@@ -12,14 +15,13 @@ import java.io.Serializable;
  * @see
  * @since 2017/4/3 汪波 first commit
  */
-public class User extends Model implements Serializable{
+public class User  implements Serializable,InsertData{
 
-  private CharSequence userId;
-  private CharSequence userName;
+  private final CharSequence userId;
+  private final CharSequence userName;
   private CharSequence userSex;
 
   public User(CharSequence userId, CharSequence userName) {
-    super("@"+userName);
     this.userId = userId;
     this.userName = userName;
   }
@@ -55,5 +57,31 @@ public class User extends Model implements Serializable{
     result = 31 * result + (userName != null ? userName.hashCode() : 0);
     result = 31 * result + (userSex != null ? userSex.hashCode() : 0);
     return result;
+  }
+
+  @Override public CharSequence provideCharSequence() {
+    return "@"+userName;
+  }
+
+  @Override public Range provideRange(int start, int end) {
+    return new Range(start,end,new UserConvert(this));
+  }
+
+  @Override public int provideColor() {
+    return Color.MAGENTA;
+  }
+
+  private class UserConvert implements Convert {
+
+    public static final String USER_FORMART = "(%s,id=%s)";
+    private final User user;
+
+    public UserConvert(User user) {
+      this.user = user;
+    }
+
+    @Override public CharSequence covert() {
+      return String.format(USER_FORMART, user.getUserName(), user.getUserId());
+    }
   }
 }

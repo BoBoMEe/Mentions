@@ -1,10 +1,12 @@
 package com.bobomee.android.mentionedittextdemo;
 
-import com.bobomee.android.mentions.model.Model;
+import android.graphics.Color;
+import com.bobomee.android.mentions.edit.listener.Convert;
+import com.bobomee.android.mentions.edit.listener.InsertData;
+import com.bobomee.android.mentions.model.Range;
 import java.io.Serializable;
 
 /**
- *
  * Resume:
  *
  * @author 汪波
@@ -12,16 +14,14 @@ import java.io.Serializable;
  * @see
  * @since 2017/4/3 汪波 first commit
  */
-public class Tag  extends Model implements Serializable{
+public class Tag implements Serializable, InsertData {
 
-  private CharSequence tagLable;
-  private CharSequence tagId;
+  private final CharSequence tagLable;
+  private final CharSequence tagId;
 
   private CharSequence tagUrl;
-  //....
 
   public Tag(CharSequence tagLable, CharSequence tagId) {
-    super("#"+tagLable+"#");
     this.tagLable = tagLable;
     this.tagId = tagId;
   }
@@ -58,5 +58,30 @@ public class Tag  extends Model implements Serializable{
     result = 31 * result + (tagId != null ? tagId.hashCode() : 0);
     result = 31 * result + (tagUrl != null ? tagUrl.hashCode() : 0);
     return result;
+  }
+
+  @Override public CharSequence provideCharSequence() {
+    return "#" + tagLable + "#";
+  }
+
+  @Override public Range provideRange(int start, int end) {
+    return new Range(start, end, new TagConvert(this));
+  }
+
+  @Override public int provideColor() {
+    return Color.GREEN;
+  }
+
+  private class TagConvert implements Convert {
+    public static final String TAG_FORMAT = "(tag=%s,id=%s)";
+    private final Tag tag;
+
+    public TagConvert(Tag tag) {
+      this.tag = tag;
+    }
+
+    @Override public CharSequence covert() {
+      return String.format(TAG_FORMAT, tag.getTagLable(), tag.getTagId());
+    }
   }
 }

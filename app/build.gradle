@@ -30,4 +30,6 @@ dependencies {
   compile 'com.android.support:recyclerview-v7:25.3.0'
   compile 'com.bobomee.android:common:1.4.9'
   compile 'com.bobomee.android:recyclerviewhelper:1.0.5'
+  compile 'com.jakewharton:butterknife:8.5.1'
+  annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

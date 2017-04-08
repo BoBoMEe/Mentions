@@ -25,11 +25,13 @@ import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
+import com.bobomee.android.mentions.edit.listener.Convert;
+import com.bobomee.android.mentions.edit.listener.InsertData;
 import com.bobomee.android.mentions.edit.listener.MentionInputConnection;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
 import com.bobomee.android.mentions.edit.util.RangeManager;
-import com.bobomee.android.mentions.model.Model;
 import com.bobomee.android.mentions.model.Range;
+import java.util.Collections;
 
 /**
  * MentionEditText adds some useful features for mention string(@xxxx), such as highlight,
@@ -102,26 +104,74 @@ public class MentionEditText extends EditText {
     }
   }
 
-  public <T extends Model> void insert(T model) {
-    CharSequence charSequence = model.getCharSequence();
-    Editable editable = getText();
-    int start = getSelectionStart();
-    int end = start + charSequence.length();
-    editable.insert(start, charSequence);
+  public void insert(InsertData insertData) {
+    if (null != insertData) {
+      CharSequence charSequence = insertData.provideCharSequence();
+      Editable editable = getText();
+      int start = getSelectionStart();
+      int end = start + charSequence.length();
+      editable.insert(start, charSequence);
+      Range range = insertData.provideRange(start, end);
+      mRangeManager.add(range);
 
-    Range range = provideRange(start, end, model);
-    mRangeManager.add(range);
-
-    editable.setSpan(new ForegroundColorSpan(provideRangeColor(model)), start, end,
-        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+      int color = insertData.provideColor();
+      editable.setSpan(new ForegroundColorSpan(color), start, end,
+          Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+    }
   }
 
-  public <T extends Model>  Range provideRange(int start, int end, T model) {
-    return new Range(start, end);
+  public void insert(CharSequence charSequence) {
+    insert(new Default(charSequence));
   }
 
-  public <T extends Model> int provideRangeColor(T model) {
-    return Color.RED;
+  class Default implements InsertData {
+
+    private final CharSequence charSequence;
+
+    public Default(CharSequence charSequence) {
+      this.charSequence = charSequence;
+    }
+
+    @Override public CharSequence provideCharSequence() {
+      return charSequence;
+    }
+
+    @Override public Range provideRange(int start, int end) {
+      return new Range(start, end, new DEFAULT());
+    }
+
+    @Override public int provideColor() {
+      return Color.RED;
+    }
+
+    class DEFAULT implements Convert {
+      @Override public CharSequence covert() {
+        return charSequence;
+      }
+    }
+  }
+
+  public CharSequence convertMetionString() {
+    String text = getText().toString();
+    if (mRangeManager.isEmpty()) {
+      return text;
+    }
+
+    StringBuilder builder = new StringBuilder("");
+    int lastRangeTo = 0;
+    Collections.sort(mRangeManager.get());
+    CharSequence newChar;
+    for (Range range : mRangeManager.get()) {
+      Convert convert = range.getConvert();
+      newChar = convert.covert();
+      builder.append(text.substring(lastRangeTo, range.getFrom()));
+      builder.append(newChar);
+      lastRangeTo = range.getTo();
+    }
+
+    builder.append(text.substring(lastRangeTo));
+
+    return builder.toString();
   }
 
   public void clear() {

@@ -1,71 +1,82 @@
 package com.bobomee.android.mentions.model;
 
 import android.support.annotation.NonNull;
+import com.bobomee.android.mentions.edit.listener.Convert;
 
 /**
  * Resume:
- * //helper class to record the position of mention string in EditText
+ * //helper class mTo record the position of mention string in EditText
  *
  * @author 汪波
  * @version 1.0
  * @since 2017/4/2 汪波 first commit
  */
 public class Range implements Comparable<Range> {
-  private int from;
-  private int to;
+  private Convert convert;
+  private int mFrom;
+  private int mTo;
 
-  public Range(int from, int to) {
-    this.from = from;
-    this.to = to;
+  public Range(int from, int to,Convert convert) {
+    this.mFrom = from;
+    this.mTo = to;
+    this.convert =convert;
   }
 
   public boolean isWrapped(int start, int end) {
-    return from >= start && to <= end;
+    return mFrom >= start && mTo <= end;
   }
 
   public boolean isWrappedBy(int start, int end) {
-    return (start > from && start < to) || (end > from && end < to);
+    return (start > mFrom && start < mTo) || (end > mFrom && end < mTo);
   }
 
   public boolean contains(int start, int end) {
-    return from <= start && to >= end;
+    return mFrom <= start && mTo >= end;
   }
 
   public boolean isEqual(int start, int end) {
-    return (from == start && to == end) || (from == end && to == start);
+    return (mFrom == start && mTo == end) || (mFrom == end && mTo == start);
   }
 
   public int getAnchorPosition(int value) {
-    if ((value - from) - (to - value) >= 0) {
-      return to;
+    if ((value - mFrom) - (mTo - value) >= 0) {
+      return mTo;
     } else {
-      return from;
+      return mFrom;
     }
   }
 
   public void setOffset(int offset) {
-    from += offset;
-    to += offset;
+    mFrom += offset;
+    mTo += offset;
   }
 
   @Override public int compareTo(@NonNull Range o) {
-    return from - o.from;
+    return mFrom - o.mFrom;
   }
 
   public int getFrom() {
-    return from;
+    return mFrom;
   }
 
   public void setFrom(int from) {
-    this.from = from;
+    this.mFrom = from;
   }
 
   public int getTo() {
-    return to;
+    return mTo;
   }
 
   public void setTo(int to) {
-    this.to = to;
+    this.mTo = to;
+  }
+
+  public Convert getConvert() {
+    return convert;
+  }
+
+  public void setConvert(Convert convert) {
+    this.convert = convert;
   }
 }
 

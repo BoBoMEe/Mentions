@@ -10,16 +10,21 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import com.bobomee.android.mentions.edit.MentionEditText;
 
 public class MainActivity extends AppCompatActivity {
 
+  @BindView(R.id.mentionedittext) MentionEditText mMentionedittext;
+  @BindView(R.id.btn_covert) Button mBtnCovert;
+  @BindView(R.id.coverted_string) TextView mCovertedString;
+  @BindView(R.id.btn_clear) Button mBtnClear;
+  @BindView(R.id.at_user) Button mAtUser;
+  @BindView(R.id.topic) Button mTopic;
+  @BindView(R.id.insert) Button mInsert;
   private MainActivity mMainActivity;
-  private MentionEditTextEnhance mMentionedittext;
-  private Button mBtnCovert;
-  private TextView mCovertedString;
-  private Button mAtUser;
-  private Button mTopic;
-  private Button mBtnClear;
 
   public static final int REQUEST_USER_APPEND = 1 << 2;
   public static final int REQUEST_TAG_APPEND = 1 << 3;
@@ -27,40 +32,12 @@ public class MainActivity extends AppCompatActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    ButterKnife.bind(this);
     mMainActivity = this;
-    initView();
+    initListener();
   }
 
-  private void initView() {
-    mMentionedittext = (MentionEditTextEnhance) findViewById(R.id.mentionedittext);
-    mBtnCovert = (Button) findViewById(R.id.btn_covert);
-    mCovertedString = (TextView) findViewById(R.id.coverted_string);
-    mBtnClear = (Button) findViewById(R.id.btn_clear);
-    mAtUser = (Button) findViewById(R.id.at_user);
-    mTopic = (Button) findViewById(R.id.topic);
-
-    mAtUser.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
-      }
-    });
-    mTopic.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
-      }
-    });
-    mBtnCovert.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        CharSequence convertMetionString = mMentionedittext.convertMetionString();
-        mCovertedString.setText(convertMetionString);
-      }
-    });
-    mBtnClear.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        mMentionedittext.clear();
-        mCovertedString.setText("");
-      }
-    });
+  private void initListener() {
 
     mMentionedittext.addTextChangedListener(new TextWatcher() {
       @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -73,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
           int selectionStart = mMentionedittext.getSelectionStart();
           if (mentionChar == '@') {
             startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
-            mMentionedittext.getText().delete(selectionStart-1,selectionStart);
+            mMentionedittext.getText().delete(selectionStart - 1, selectionStart);
           } else if (mentionChar == '#') {
             startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
-            mMentionedittext.getText().delete(selectionStart-1,selectionStart);
+            mMentionedittext.getText().delete(selectionStart - 1, selectionStart);
           }
         }
       }
@@ -102,5 +79,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     super.onActivityResult(requestCode, resultCode, data);
+  }
+
+  @OnClick({ R.id.btn_covert, R.id.btn_clear, R.id.at_user, R.id.topic, R.id.insert })
+  public void onViewClicked(View view) {
+    switch (view.getId()) {
+      case R.id.btn_covert:
+        CharSequence convertMetionString = mMentionedittext.convertMetionString();
+        mCovertedString.setText(convertMetionString);
+        break;
+      case R.id.btn_clear:
+        mMentionedittext.clear();
+        mCovertedString.setText("");
+        break;
+      case R.id.at_user:
+        startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
+        break;
+      case R.id.topic:
+        startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
+        break;
+      case R.id.insert:
+        mMentionedittext.insert("insert a range CharSequence");
+        break;
+    }
   }
 }
