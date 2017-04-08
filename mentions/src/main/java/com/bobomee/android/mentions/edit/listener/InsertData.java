@@ -1,6 +1,6 @@
 package com.bobomee.android.mentions.edit.listener;
 
-import com.bobomee.android.mentions.Range;
+import com.bobomee.android.mentions.model.Range;
 
 /**
  * Resume:

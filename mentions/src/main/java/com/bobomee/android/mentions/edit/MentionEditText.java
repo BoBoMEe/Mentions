@@ -25,13 +25,13 @@ import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
-import com.bobomee.android.mentions.Range;
-import com.bobomee.android.mentions.RangeManager;
+import com.bobomee.android.mentions.edit.listener.FormatData;
 import com.bobomee.android.mentions.edit.listener.InsertData;
 import com.bobomee.android.mentions.edit.listener.MentionInputConnection;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
-import com.bobomee.android.mentions.edit.util.FormatRange;
-import com.bobomee.android.mentions.edit.util.FormatRangeManager;
+import com.bobomee.android.mentions.edit.util.RangeManager;
+import com.bobomee.android.mentions.model.Range;
+import java.util.Collections;
 
 /**
  * MentionEditText adds some useful features for mention string(@xxxx), such as highlight,
@@ -45,11 +45,13 @@ public class MentionEditText extends EditText {
   private boolean mIsSelected;
 
   public MentionEditText(Context context) {
-    this(context,null);
+    super(context);
+    init();
   }
 
   public MentionEditText(Context context, AttributeSet attrs) {
-    this(context, attrs,0);
+    super(context, attrs);
+    init();
   }
 
   public MentionEditText(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -135,14 +137,14 @@ public class MentionEditText extends EditText {
     }
 
     @Override public Range range(int start, int end) {
-      return new FormatRange(start, end, new DEFAULT());
+      return new Range(start, end, new DEFAULT());
     }
 
     @Override public int color() {
       return Color.RED;
     }
 
-    class DEFAULT implements FormatRange.FormatData {
+    class DEFAULT implements FormatData {
       @Override public CharSequence formatCharSequence() {
         return charSequence;
       }
@@ -151,7 +153,25 @@ public class MentionEditText extends EditText {
 
   public CharSequence getFormatCharSequence() {
     String text = getText().toString();
-    return mRangeManager.formatCharSequence(text);
+    if (mRangeManager.isEmpty()) {
+      return text;
+    }
+
+    StringBuilder builder = new StringBuilder("");
+    int lastRangeTo = 0;
+    Collections.sort(mRangeManager.get());
+    CharSequence newChar;
+    for (Range range : mRangeManager.get()) {
+      FormatData convert = range.getConvert();
+      newChar = convert.formatCharSequence();
+      builder.append(text.substring(lastRangeTo, range.getFrom()));
+      builder.append(newChar);
+      lastRangeTo = range.getTo();
+    }
+
+    builder.append(text.substring(lastRangeTo));
+
+    return builder.toString();
   }
 
   public void clear() {
@@ -159,10 +179,10 @@ public class MentionEditText extends EditText {
     setText("");
   }
 
-  protected FormatRangeManager mRangeManager;
+  protected RangeManager mRangeManager;
 
   private void init() {
-    mRangeManager = new FormatRangeManager();
+    mRangeManager = new RangeManager();
     //disable suggestion
     addTextChangedListener(new MentionTextWatcher(this));
   }

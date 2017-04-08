@@ -4,8 +4,8 @@ import android.view.KeyEvent;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
 import com.bobomee.android.mentions.edit.MentionEditText;
-import com.bobomee.android.mentions.RangeManager;
-import com.bobomee.android.mentions.Range;
+import com.bobomee.android.mentions.edit.util.RangeManager;
+import com.bobomee.android.mentions.model.Range;
 
 /**
  * Resume:

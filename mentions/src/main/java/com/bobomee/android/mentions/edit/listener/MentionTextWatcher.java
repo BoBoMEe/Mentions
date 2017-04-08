@@ -4,8 +4,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import com.bobomee.android.mentions.edit.MentionEditText;
-import com.bobomee.android.mentions.RangeManager;
-import com.bobomee.android.mentions.Range;
+import com.bobomee.android.mentions.edit.util.RangeManager;
+import com.bobomee.android.mentions.model.Range;
 import java.util.Iterator;
 
 /**

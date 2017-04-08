@@ -1,6 +1,7 @@
-package com.bobomee.android.mentions;
+package com.bobomee.android.mentions.model;
 
 import android.support.annotation.NonNull;
+import com.bobomee.android.mentions.edit.listener.FormatData;
 
 /**
  * Resume:
@@ -11,13 +12,14 @@ import android.support.annotation.NonNull;
  * @since 2017/4/2 汪波 first commit
  */
 public class Range implements Comparable<Range> {
-
+  private FormatData convert;
   private int mFrom;
   private int mTo;
 
-  public Range(int from, int to) {
+  public Range(int from, int to,FormatData convert) {
     this.mFrom = from;
     this.mTo = to;
+    this.convert =convert;
   }
 
   public boolean isWrapped(int start, int end) {
@@ -69,5 +71,12 @@ public class Range implements Comparable<Range> {
     this.mTo = to;
   }
 
+  public FormatData getConvert() {
+    return convert;
+  }
+
+  public void setConvert(FormatData convert) {
+    this.convert = convert;
+  }
 }
 
