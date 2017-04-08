@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
   public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.btn_covert:
-        CharSequence convertMetionString = mMentionedittext.convertMetionString();
+        CharSequence convertMetionString = mMentionedittext.getFormatCharSequence();
         mCovertedString.setText(convertMetionString);
         break;
       case R.id.btn_clear:

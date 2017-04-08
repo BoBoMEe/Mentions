@@ -12,9 +12,9 @@ import com.bobomee.android.mentions.model.Range;
  */
 public interface InsertData {
 
-  CharSequence provideCharSequence();
+  CharSequence charSequence();
 
-  Range provideRange(int start,int end);
+  Range range(int start, int end);
 
-  int provideColor();
+  int color();
 }

@@ -1,7 +1,7 @@
 package com.bobomee.android.mentions.model;
 
 import android.support.annotation.NonNull;
-import com.bobomee.android.mentions.edit.listener.Convert;
+import com.bobomee.android.mentions.edit.listener.FormatData;
 
 /**
  * Resume:
@@ -12,11 +12,11 @@ import com.bobomee.android.mentions.edit.listener.Convert;
  * @since 2017/4/2 汪波 first commit
  */
 public class Range implements Comparable<Range> {
-  private Convert convert;
+  private FormatData convert;
   private int mFrom;
   private int mTo;
 
-  public Range(int from, int to,Convert convert) {
+  public Range(int from, int to,FormatData convert) {
     this.mFrom = from;
     this.mTo = to;
     this.convert =convert;
@@ -71,11 +71,11 @@ public class Range implements Comparable<Range> {
     this.mTo = to;
   }
 
-  public Convert getConvert() {
+  public FormatData getConvert() {
     return convert;
   }
 
-  public void setConvert(Convert convert) {
+  public void setConvert(FormatData convert) {
     this.convert = convert;
   }
 }

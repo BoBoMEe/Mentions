@@ -1,7 +1,7 @@
 package com.bobomee.android.mentionedittextdemo;
 
 import android.graphics.Color;
-import com.bobomee.android.mentions.edit.listener.Convert;
+import com.bobomee.android.mentions.edit.listener.FormatData;
 import com.bobomee.android.mentions.edit.listener.InsertData;
 import com.bobomee.android.mentions.model.Range;
 import java.io.Serializable;
@@ -60,19 +60,19 @@ public class Tag implements Serializable, InsertData {
     return result;
   }
 
-  @Override public CharSequence provideCharSequence() {
+  @Override public CharSequence charSequence() {
     return "#" + tagLable + "#";
   }
 
-  @Override public Range provideRange(int start, int end) {
+  @Override public Range range(int start, int end) {
     return new Range(start, end, new TagConvert(this));
   }
 
-  @Override public int provideColor() {
+  @Override public int color() {
     return Color.GREEN;
   }
 
-  private class TagConvert implements Convert {
+  private class TagConvert implements FormatData {
     public static final String TAG_FORMAT = "(tag=%s,id=%s)";
     private final Tag tag;
 
@@ -80,7 +80,7 @@ public class Tag implements Serializable, InsertData {
       this.tag = tag;
     }
 
-    @Override public CharSequence covert() {
+    @Override public CharSequence formatCharSequence() {
       return String.format(TAG_FORMAT, tag.getTagLable(), tag.getTagId());
     }
   }

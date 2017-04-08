@@ -25,7 +25,7 @@ import android.util.AttributeSet;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.EditText;
-import com.bobomee.android.mentions.edit.listener.Convert;
+import com.bobomee.android.mentions.edit.listener.FormatData;
 import com.bobomee.android.mentions.edit.listener.InsertData;
 import com.bobomee.android.mentions.edit.listener.MentionInputConnection;
 import com.bobomee.android.mentions.edit.listener.MentionTextWatcher;
@@ -106,15 +106,15 @@ public class MentionEditText extends EditText {
 
   public void insert(InsertData insertData) {
     if (null != insertData) {
-      CharSequence charSequence = insertData.provideCharSequence();
+      CharSequence charSequence = insertData.charSequence();
       Editable editable = getText();
       int start = getSelectionStart();
       int end = start + charSequence.length();
       editable.insert(start, charSequence);
-      Range range = insertData.provideRange(start, end);
+      Range range = insertData.range(start, end);
       mRangeManager.add(range);
 
-      int color = insertData.provideColor();
+      int color = insertData.color();
       editable.setSpan(new ForegroundColorSpan(color), start, end,
           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
     }
@@ -132,26 +132,26 @@ public class MentionEditText extends EditText {
       this.charSequence = charSequence;
     }
 
-    @Override public CharSequence provideCharSequence() {
+    @Override public CharSequence charSequence() {
       return charSequence;
     }
 
-    @Override public Range provideRange(int start, int end) {
+    @Override public Range range(int start, int end) {
       return new Range(start, end, new DEFAULT());
     }
 
-    @Override public int provideColor() {
+    @Override public int color() {
       return Color.RED;
     }
 
-    class DEFAULT implements Convert {
-      @Override public CharSequence covert() {
+    class DEFAULT implements FormatData {
+      @Override public CharSequence formatCharSequence() {
         return charSequence;
       }
     }
   }
 
-  public CharSequence convertMetionString() {
+  public CharSequence getFormatCharSequence() {
     String text = getText().toString();
     if (mRangeManager.isEmpty()) {
       return text;
@@ -162,8 +162,8 @@ public class MentionEditText extends EditText {
     Collections.sort(mRangeManager.get());
     CharSequence newChar;
     for (Range range : mRangeManager.get()) {
-      Convert convert = range.getConvert();
-      newChar = convert.covert();
+      FormatData convert = range.getConvert();
+      newChar = convert.formatCharSequence();
       builder.append(text.substring(lastRangeTo, range.getFrom()));
       builder.append(newChar);
       lastRangeTo = range.getTo();

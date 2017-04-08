@@ -8,7 +8,7 @@ package com.bobomee.android.mentions.edit.listener;
  * @see
  * @since 2017/4/8 汪波 first commit
  */
-public interface Convert {
+public interface FormatData {
 
-  CharSequence covert();
+  CharSequence formatCharSequence();
 }

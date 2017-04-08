@@ -10,6 +10,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.bobomee.android.common.adapter.CommonRcvAdapter;
 import com.bobomee.android.common.adapter.interfaces.AdapterItem;
 import com.bobomee.android.recyclerviewhelper.selectclick.click.ItemClick;
@@ -18,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
  * Resume:
  *
  * @author 汪波
@@ -28,7 +29,7 @@ import java.util.List;
  */
 public class TagList extends AppCompatActivity {
 
-  private RecyclerView recycler;
+  @BindView(R.id.recycler) RecyclerView recycler;
   private TagList mTagList;
 
   public static final String RESULT_TAG = "RESULT_TAG";
@@ -37,6 +38,7 @@ public class TagList extends AppCompatActivity {
   @Override protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.common_recycler);
+    ButterKnife.bind(this);
     mTagList = this;
     initView();
   }
@@ -45,7 +47,6 @@ public class TagList extends AppCompatActivity {
 
     List<Tag> tags = provideData();
 
-    recycler = (RecyclerView) findViewById(R.id.recycler);
     recycler.setLayoutManager(new LinearLayoutManager(mTagList));
     mTagAdapter = new TagAdapter(tags);
     recycler.setAdapter(mTagAdapter);
