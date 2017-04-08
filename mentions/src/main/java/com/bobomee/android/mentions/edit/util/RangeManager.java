@@ -14,47 +14,47 @@ import java.util.Iterator;
  */
 public class RangeManager {
 
-  private ArrayList<Range> mRangeArrayList;
+  private ArrayList<Range> mRanges;
 
   public RangeManager() {
-    mRangeArrayList = new ArrayList<>();
+    mRanges = new ArrayList<>();
   }
 
   public ArrayList<? extends Range> get() {
     ensureListNonNull();
-    return mRangeArrayList;
+    return mRanges;
   }
 
   public <T extends Range>void add(T range) {
     ensureListNonNull();
-    mRangeArrayList.add(range);
+    mRanges.add(range);
   }
 
   public void clear() {
     ensureListNonNull();
-    mRangeArrayList.clear();
+    mRanges.clear();
   }
 
   public boolean isEmpty() {
     ensureListNonNull();
-    return mRangeArrayList.isEmpty();
+    return mRanges.isEmpty();
   }
 
   public Iterator<? extends Range> iterator(){
     ensureListNonNull();
-    return mRangeArrayList.iterator();
+    return mRanges.iterator();
   }
 
   private void ensureListNonNull() {
-    if (null == mRangeArrayList) {
-      mRangeArrayList = new ArrayList<>();
+    if (null == mRanges) {
+      mRanges = new ArrayList<>();
     }
   }
   public Range getRangeOfClosestMentionString(int selStart, int selEnd) {
-    if (mRangeArrayList == null) {
+    if (mRanges == null) {
       return null;
     }
-    for (Range range : mRangeArrayList) {
+    for (Range range : mRanges) {
       if (range.contains(selStart, selEnd)) {
         return range;
       }
@@ -63,10 +63,10 @@ public class RangeManager {
   }
 
   public Range getRangeOfNearbyMentionString(int selStart, int selEnd) {
-    if (mRangeArrayList == null) {
+    if (mRanges == null) {
       return null;
     }
-    for (Range range : mRangeArrayList) {
+    for (Range range : mRanges) {
       if (range.isWrappedBy(selStart, selEnd)) {
         return range;
       }
