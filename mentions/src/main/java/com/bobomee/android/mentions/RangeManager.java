@@ -1,8 +1,8 @@
-package com.bobomee.android.mentions.edit.util;
+package com.bobomee.android.mentions;
 
-import com.bobomee.android.mentions.model.Range;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Resume:
@@ -14,47 +14,54 @@ import java.util.Iterator;
  */
 public class RangeManager {
 
-  private ArrayList<Range> mRangeArrayList;
+  private ArrayList<Range> mRanges;
 
   public RangeManager() {
-    mRangeArrayList = new ArrayList<>();
+    mRanges = new ArrayList<>();
   }
 
   public ArrayList<? extends Range> get() {
     ensureListNonNull();
-    return mRangeArrayList;
+    return mRanges;
   }
 
-  public <T extends Range>void add(T range) {
+
+  public <T extends Range> void add(T range) {
     ensureListNonNull();
-    mRangeArrayList.add(range);
+    mRanges.add(range);
+  }
+
+  public <T extends Range> void addAll(List<T> ranges) {
+    ensureListNonNull();
+    mRanges.addAll(ranges);
   }
 
   public void clear() {
     ensureListNonNull();
-    mRangeArrayList.clear();
+    mRanges.clear();
   }
 
   public boolean isEmpty() {
     ensureListNonNull();
-    return mRangeArrayList.isEmpty();
+    return mRanges.isEmpty();
   }
 
-  public Iterator<? extends Range> iterator(){
+  public Iterator<? extends Range> iterator() {
     ensureListNonNull();
-    return mRangeArrayList.iterator();
+    return mRanges.iterator();
   }
 
   private void ensureListNonNull() {
-    if (null == mRangeArrayList) {
-      mRangeArrayList = new ArrayList<>();
+    if (null == mRanges) {
+      mRanges = new ArrayList<>();
     }
   }
+
   public Range getRangeOfClosestMentionString(int selStart, int selEnd) {
-    if (mRangeArrayList == null) {
+    if (mRanges == null) {
       return null;
     }
-    for (Range range : mRangeArrayList) {
+    for (Range range : mRanges) {
       if (range.contains(selStart, selEnd)) {
         return range;
       }
@@ -63,16 +70,17 @@ public class RangeManager {
   }
 
   public Range getRangeOfNearbyMentionString(int selStart, int selEnd) {
-    if (mRangeArrayList == null) {
+    if (mRanges == null) {
       return null;
     }
-    for (Range range : mRangeArrayList) {
+    for (Range range : mRanges) {
       if (range.isWrappedBy(selStart, selEnd)) {
         return range;
       }
     }
     return null;
   }
+
   ////////////
   private Range mLastSelectedRange;
 
