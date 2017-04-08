@@ -1,71 +1,64 @@
 ## Mentions
 - MentionEditText :
 adds some useful features for mention string(@xxxx,#xxx#，links), such as highlight, intelligent deletion, intelligent selection and '@','#'and `links` input detection, etc.
-- MentionTextView :
-display strings with regular matches mention string(@xxxx,#xxx#，links), and support Click events
 
 ## ScreenShot
 ![Samples](art/demo.gif)
 
 
 ## Usage
-```java
-@Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-// ....
-// listening the mention character input
-    if (null == mOnMentionInputListener) {
-      mOnMentionInputListener = new OnMentionInputListener() {
-        @Override public void onMentionCharacterInput(char charSequence) {
-          if (charSequence == mMentionedittext.getMentionChar()) {
-            startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
-          } else if (charSequence == mMentionedittext.getTagChar()) {
-            startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
-          }
-        }
-      };
-      mMentionedittext.addOnMentionInputListener(mOnMentionInputListener);
-    }
 
-// convert metion character to string,such as @BoBoMEe -> (@BoBoMEe,id=xxx)
-    mBtnCovert.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        String convertMetionString = mMentionedittext.convertMetionString();
-        mCovertedString.setText(convertMetionString);
-      }
-    });
+- [User](https://github.com/BoBoMEe/Mentions/blob/master/app/src/main/java/com/bobomee/android/mentionedittextdemo/User.java)
+
+```java
+public class User implements InsertData{
+  //...
+
+  @Override public CharSequence charSequence() {
+    return "@"+userName;
   }
 
-// activity result
+  @Override public Range range(int start, int end) {
+    return new FormatRange(start,end,new UserConvert(this));
+  }
+
+  @Override public int color() {
+    return Color.MAGENTA;
+  }
+
+  private class UserConvert implements FormatRange.FormatData {
+    //...
+
+    @Override public CharSequence formatCharSequence() {
+      return "";
+    }
+  }
+}
+```
+
+- [MainActivity.java](https://github.com/BoBoMEe/MentionEditText/blob/master/app/src/main/java/com/bobomee/android/mentionedittextdemo/MainActivity.java)
+
+```java
+public class MainActivity extends AppCompatActivity{
+@BindView(R.id.mentionedittext) MentionEditText mMentionedittext;
 @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
     if (resultCode == Activity.RESULT_OK && null != data) {
       switch (requestCode) {
-       //...
         case REQUEST_USER_APPEND:
-          User user1 = data.getParcelableExtra(UserList.RESULT_USER);
-          mMentionedittext.appendUser(user1.getUserId(), user1.getUserName());
+          User user = (User) data.getSerializableExtra(UserList.RESULT_USER);
+          mMentionedittext.insert(user);
           break;
-        case REQUEST_TAG_APPEND:
-          Tag tag1 = data.getParcelableExtra(TagList.RESULT_TAG);
-          mMentionedittext.appendTag(tag1.getTagId(), tag1.getTagLable());
-          break;
+        //...
       }
     }
+
     super.onActivityResult(requestCode, resultCode, data);
   }
+}
 ```
 
 more usage:[MainActivity.java](https://github.com/BoBoMEe/MentionEditText/blob/master/app/src/main/java/com/bobomee/android/mentionedittextdemo/MainActivity.java)
-
-## Setting
-- `setMentionTextColor(int color);` : default is `Color.RED`.
-- `setMentionChar(char mentionchar);` : default is `'@'`
-- `setMentionTextFormat(String format);` : default is `"(@%s:%s)"`
-
-- `setTagTextColor(int color);` : default is `Color.BLUE`
-- `setTagChar(char mentionchar);` : default is `'#'`
-- `setTagTextFormat(String format);` : default is `"[#%s#]"`
-
 
 ## Thanks
 - [luckyandyzhang/MentionEditText](https://github.com/luckyandyzhang/MentionEditText)
