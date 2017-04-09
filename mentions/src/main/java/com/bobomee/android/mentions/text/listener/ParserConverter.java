@@ -8,7 +8,6 @@ import android.text.Spanned;
  *
  * @author 汪波
  * @version 1.0
- * @see
  * @since 2017/4/9 汪波 first commit
  */
 public interface ParserConverter {

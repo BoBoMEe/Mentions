@@ -1,6 +1,6 @@
 ## Mentions
 - MentionEditText :
-support some useful features for mention string(@xxxx,#xxx#，links), such as highlight, intelligent deletion, intelligent selection and '@','#'and `links` input detection, etc.
+support some useful features for mention string(@xxxx,#xxx#，links), such as highlight, intelligent deletion, intelligent selection and '@','#'and `links` input detection, ,additional field,etc.
 
 - MentionTextView :
 support some useful features for mention string(@xxxx,#xxx#，links), such as highlight, clickable, custom parser,additional field,etc.

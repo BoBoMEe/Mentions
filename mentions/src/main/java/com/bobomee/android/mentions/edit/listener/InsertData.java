@@ -7,7 +7,6 @@ import com.bobomee.android.mentions.model.FormatRange;
  *
  * @author 汪波
  * @version 1.0
- * @see
  * @since 2017/4/8 汪波 first commit
  */
 public interface InsertData {

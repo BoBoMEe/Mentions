@@ -9,7 +9,6 @@ import java.util.Iterator;
  *
  * @author 汪波
  * @version 1.0
- * @see
  * @since 2017/4/7 汪波 first commit
  */
 public class RangeManager {

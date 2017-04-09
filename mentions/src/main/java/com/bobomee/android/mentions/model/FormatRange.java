@@ -6,7 +6,6 @@ package com.bobomee.android.mentions.model;
  *
  * @author 汪波
  * @version 1.0
- * @see
  * @since 2017/4/8 汪波 first commit
  */
 public class FormatRange extends Range {
