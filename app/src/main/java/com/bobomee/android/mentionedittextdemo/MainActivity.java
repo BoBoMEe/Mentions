@@ -44,12 +44,14 @@ public class MainActivity extends AppCompatActivity {
 
   private UserParser mUserParser = new UserParser();
   private TagParser mTagParser = new TagParser();
+  private PreferencesLoader loader;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     mMainActivity = this;
+    loader = new PreferencesLoader(this);
 
     initViews();
     initListener();
@@ -57,7 +59,20 @@ public class MainActivity extends AppCompatActivity {
 
   private void initViews() {
     mCovertedString.setMovementMethod(new ScrollingMovementMethod());
-    mMentiontextview.setParserConverter(mUserParser);
+
+    int anInt = loader.getInt(R.string.selected_parser);
+    switch (anInt) {
+      case 0:
+      case 1:
+        mMentiontextview.setParserConverter(mUserParser);
+        break;
+      case 2:
+        mMentiontextview.setParserConverter(mTagParser);
+        break;
+      default:
+        mMentiontextview.setParserConverter(mUserParser);
+        break;
+    }
   }
 
   private void initListener() {
@@ -141,16 +156,14 @@ public class MainActivity extends AppCompatActivity {
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
 
-    PreferencesLoader loader = new PreferencesLoader(this);
-
     switch (id) {
       case R.id.user_parser:
         mMentiontextview.setParserConverter(mUserParser);
-        loader.saveBoolean(R.string.selected_tag_parser, true);
+        loader.saveInt(R.string.selected_parser, 1);
         return true;
       case R.id.tag_parser:
         mMentiontextview.setParserConverter(mTagParser);
-        loader.saveBoolean(R.string.selected_tag_parser, true);
+        loader.saveInt(R.string.selected_parser, 2);
         return true;
     }
 
