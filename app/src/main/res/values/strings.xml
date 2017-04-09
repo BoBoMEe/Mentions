@@ -1,3 +1,8 @@
 <resources>
   <string name="app_name">MentionEditTextDemo</string>
+  <string name="userparser">UserParser</string>
+  <string name="tagparser">TagParser</string>
+
+  <string name="selected_user_parser">selected_user_parser</string>
+  <string name="selected_tag_parser">selected_tag_parser</string>
 </resources>
