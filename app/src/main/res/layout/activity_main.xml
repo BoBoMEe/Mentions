@@ -1,86 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.bobomee.android.mentionedittextdemo.MainActivity"
+    android:orientation="vertical"
     >
+  <com.bobomee.android.mentions.edit.MentionEditText
+      android:id="@+id/mentionedittext"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@color/press"
+      android:gravity="top"
+      />
+  <Button
+      android:id="@+id/btn_clear"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="清空"
+      android:textSize="15sp"
+      />
+
 
   <LinearLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:orientation="vertical"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:orientation="horizontal"
       >
 
-
-    <com.bobomee.android.mentions.edit.MentionEditText
-        android:id="@+id/mentionedittext"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:gravity="top"
+    <Button
+        android:id="@+id/at_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="\@好友"
         />
 
     <Button
-        android:id="@+id/btn_covert"
-        android:layout_width="match_parent"
+        android:id="@+id/topic"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="获取源字符串"
-        android:textSize="15sp"
+        android:text="\#一个话题"
         />
-    <TextView
-        android:id="@+id/coverted_string"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
-        />
+
     <Button
-        android:id="@+id/btn_clear"
-        android:layout_width="match_parent"
+        android:id="@+id/insert"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="清空"
-        android:textSize="15sp"
+        android:text="插入整块文字"
         />
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        >
-
-      <Button
-          android:id="@+id/at_user"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="\@好友"
-          />
-
-      <Button
-          android:id="@+id/topic"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="\#一个话题"
-          />
-
-      <Button
-          android:id="@+id/insert"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:text="插入整块文字"
-          />
-    </LinearLayout>
   </LinearLayout>
 
 
-</RelativeLayout>
+  <Button
+      android:id="@+id/btn_covert"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="获取源字符串，用于传送给服务器"
+      android:textSize="15sp"
+      />
+  <TextView
+      android:id="@+id/coverted_string"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@color/press"
+      android:scrollbars="vertical"
+      />
+
+  <Button
+      android:id="@+id/btn_show"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      android:text="显示富文本到TextView"
+      android:textSize="15sp"
+      />
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:background="@color/press"
+      android:onClick="ViewGroupClick"
+      >
+
+    <com.bobomee.android.mentions.text.MentionTextView
+        android:id="@+id/mentiontextview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+
+        android:scrollbars="vertical"
+        />
+  </RelativeLayout>
+
+
+</LinearLayout>
+
+

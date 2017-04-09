@@ -7,13 +7,21 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.bobomee.android.common.util.ToastUtil;
+import com.bobomee.android.mentionedittextdemo.edit.Tag;
+import com.bobomee.android.mentionedittextdemo.edit.TagList;
+import com.bobomee.android.mentionedittextdemo.edit.User;
+import com.bobomee.android.mentionedittextdemo.edit.UserList;
+import com.bobomee.android.mentionedittextdemo.text.parser.user.UserParser;
 import com.bobomee.android.mentions.edit.MentionEditText;
+import com.bobomee.android.mentions.text.MentionTextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
   @BindView(R.id.at_user) Button mAtUser;
   @BindView(R.id.topic) Button mTopic;
   @BindView(R.id.insert) Button mInsert;
+  @BindView(R.id.btn_show) Button mBtnShow;
+  @BindView(R.id.mentiontextview) MentionTextView mMentiontextview;
   private MainActivity mMainActivity;
 
   public static final int REQUEST_USER_APPEND = 1 << 2;
@@ -34,7 +44,15 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     mMainActivity = this;
+
+    initViews();
     initListener();
+  }
+
+  private void initViews() {
+    mCovertedString.setMovementMethod(new ScrollingMovementMethod());
+    mMentiontextview.setParserConverter(new UserParser());
+    //mMentiontextview.setParserConverter(new TagParser());
   }
 
   private void initListener() {
@@ -81,8 +99,9 @@ public class MainActivity extends AppCompatActivity {
     super.onActivityResult(requestCode, resultCode, data);
   }
 
-  @OnClick({ R.id.btn_covert, R.id.btn_clear, R.id.at_user, R.id.topic, R.id.insert })
-  public void onViewClicked(View view) {
+  @OnClick({
+      R.id.btn_covert, R.id.btn_clear, R.id.at_user, R.id.topic, R.id.insert, R.id.btn_show
+  }) public void onViewClicked(View view) {
     switch (view.getId()) {
       case R.id.btn_covert:
         CharSequence convertMetionString = mMentionedittext.getFormatCharSequence();
@@ -91,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
       case R.id.btn_clear:
         mMentionedittext.clear();
         mCovertedString.setText("");
+        mMentiontextview.setText("");
         break;
       case R.id.at_user:
         startActivityForResult(UserList.getIntent(mMainActivity), REQUEST_USER_APPEND);
@@ -101,6 +121,14 @@ public class MainActivity extends AppCompatActivity {
       case R.id.insert:
         mMentionedittext.insert("insert a range CharSequence");
         break;
+      case R.id.btn_show:
+        CharSequence convertMetionString1 = mMentionedittext.getFormatCharSequence();
+        mMentiontextview.setText(convertMetionString1);
+        break;
     }
+  }
+
+  public void ViewGroupClick(View view){
+    ToastUtil.show(mMainActivity,"ViewGroupClick");
   }
 }

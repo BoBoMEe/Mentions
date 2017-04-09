@@ -1,9 +1,8 @@
-package com.bobomee.android.mentionedittextdemo;
+package com.bobomee.android.mentionedittextdemo.edit;
 
 import android.graphics.Color;
 import com.bobomee.android.mentions.edit.listener.InsertData;
 import com.bobomee.android.mentions.model.FormatRange;
-import com.bobomee.android.mentions.model.Range;
 import java.io.Serializable;
 
 /**
@@ -63,8 +62,8 @@ public class User  implements Serializable,InsertData {
     return "@"+userName;
   }
 
-  @Override public Range range(int start, int end) {
-    return new FormatRange(start,end,new UserConvert(this));
+  @Override public FormatRange.FormatData formatData() {
+    return new UserConvert(this);
   }
 
   @Override public int color() {
@@ -73,7 +72,7 @@ public class User  implements Serializable,InsertData {
 
   private class UserConvert implements FormatRange.FormatData {
 
-    public static final String USER_FORMART = "(%s,id=%s)";
+    public static final String USER_FORMART = "(@%s,id=%s)";
     private final User user;
 
     public UserConvert(User user) {

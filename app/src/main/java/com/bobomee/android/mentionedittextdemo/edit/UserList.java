@@ -1,4 +1,4 @@
-package com.bobomee.android.mentionedittextdemo;
+package com.bobomee.android.mentionedittextdemo.edit;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.bobomee.android.common.adapter.CommonRcvAdapter;
 import com.bobomee.android.common.adapter.interfaces.AdapterItem;
+import com.bobomee.android.mentionedittextdemo.R;
 import com.bobomee.android.recyclerviewhelper.selectclick.click.ItemClick;
 import com.bobomee.android.recyclerviewhelper.selectclick.click.ItemClickSupport;
 import java.util.ArrayList;

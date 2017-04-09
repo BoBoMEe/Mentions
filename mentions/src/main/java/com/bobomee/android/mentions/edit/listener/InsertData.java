@@ -1,6 +1,6 @@
 package com.bobomee.android.mentions.edit.listener;
 
-import com.bobomee.android.mentions.model.Range;
+import com.bobomee.android.mentions.model.FormatRange;
 
 /**
  * Resume:
@@ -14,7 +14,7 @@ public interface InsertData {
 
   CharSequence charSequence();
 
-  Range range(int start, int end);
+  FormatRange.FormatData formatData();
 
   int color();
 }

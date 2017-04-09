@@ -111,7 +111,8 @@ public class MentionEditText extends EditText {
       int start = getSelectionStart();
       int end = start + charSequence.length();
       editable.insert(start, charSequence);
-      Range range = insertData.range(start, end);
+      FormatRange.FormatData format = insertData.formatData();
+      Range range = new FormatRange(start, end, format);
       mRangeManager.add(range);
 
       int color = insertData.color();
@@ -136,8 +137,8 @@ public class MentionEditText extends EditText {
       return charSequence;
     }
 
-    @Override public Range range(int start, int end) {
-      return new FormatRange(start, end, new DEFAULT());
+    @Override public FormatRange.FormatData formatData() {
+      return new DEFAULT();
     }
 
     @Override public int color() {
