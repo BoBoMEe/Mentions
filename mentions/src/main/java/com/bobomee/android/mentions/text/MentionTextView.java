@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.widget.TextView;
 import com.bobomee.android.mentions.text.listener.ParserConverter;
@@ -41,7 +40,6 @@ public class MentionTextView extends TextView {
 
     text = wrapper(text);
     super.setText(text, type);
-    setMovementMethod(new LinkMovementMethod());
   }
 
   public CharSequence wrapper(CharSequence text) {
