@@ -1,8 +1,8 @@
 package com.bobomee.android.mentions.text;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
@@ -29,7 +29,7 @@ public class MentionTextView extends TextView {
     super(context, attrs, defStyle);
   }
 
-  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   public MentionTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
     super(context, attrs, defStyleAttr, defStyleRes);
   }
@@ -38,8 +38,14 @@ public class MentionTextView extends TextView {
     if (!TextUtils.isEmpty(text) && null != mParserConverter) {
       text = mParserConverter.convert(text);
     }
+
+    text = wrapper(text);
     super.setText(text, type);
     setMovementMethod(new LinkMovementMethod());
+  }
+
+  public CharSequence wrapper(CharSequence text) {
+    return text;
   }
 
   private ParserConverter mParserConverter;
