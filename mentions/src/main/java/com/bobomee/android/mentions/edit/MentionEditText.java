@@ -112,7 +112,9 @@ public class MentionEditText extends EditText {
       int end = start + charSequence.length();
       editable.insert(start, charSequence);
       FormatRange.FormatData format = insertData.formatData();
-      Range range = new FormatRange(start, end, format);
+      FormatRange range = new FormatRange(start, end);
+      range.setConvert(format);
+      range.setRangeCharSequence(charSequence);
       mRangeManager.add(range);
 
       int color = insertData.color();

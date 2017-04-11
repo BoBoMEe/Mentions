@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
 
   private void initViews() {
     mCovertedString.setMovementMethod(new ScrollingMovementMethod());
+    mMentiontextview.setMovementMethod(new LinkMovementMethod());
 
     int anInt = loader.getInt(R.string.selected_parser);
     switch (anInt) {
@@ -139,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
         break;
       case R.id.insert:
-        mMentionedittext.insert("insert a range CharSequence");
+        mMentionedittext.insert("<a href='http://www.baidu.com/'>百度一下</a>");
         break;
       case R.id.btn_show:
         CharSequence convertMetionString1 = mMentionedittext.getFormatCharSequence();

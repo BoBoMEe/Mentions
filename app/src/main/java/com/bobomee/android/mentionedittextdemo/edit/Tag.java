@@ -72,7 +72,7 @@ public class Tag implements Serializable, InsertData {
   }
 
   private class TagConvert implements FormatRange.FormatData {
-    public static final String TAG_FORMAT = "<tag id='%s' name='%s'>%s</tag>";
+    public static final String TAG_FORMAT = "&nbsp;<tag id='%s'>%s</tag>&nbsp;";
     private final Tag tag;
 
     public TagConvert(Tag tag) {
