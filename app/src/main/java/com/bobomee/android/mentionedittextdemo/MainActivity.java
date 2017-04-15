@@ -9,8 +9,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -21,9 +19,7 @@ import com.bobomee.android.mentionedittextdemo.edit.Tag;
 import com.bobomee.android.mentionedittextdemo.edit.TagList;
 import com.bobomee.android.mentionedittextdemo.edit.User;
 import com.bobomee.android.mentionedittextdemo.edit.UserList;
-import com.bobomee.android.mentionedittextdemo.text.parser.TagParser;
-import com.bobomee.android.mentionedittextdemo.text.parser.user.UserParser;
-import com.bobomee.android.mentionedittextdemo.util.PreferencesLoader;
+import com.bobomee.android.mentionedittextdemo.text.parser.Parser;
 import com.bobomee.android.mentions.edit.MentionEditText;
 import com.bobomee.android.mentions.text.MentionTextView;
 
@@ -43,16 +39,13 @@ public class MainActivity extends AppCompatActivity {
   public static final int REQUEST_USER_APPEND = 1 << 2;
   public static final int REQUEST_TAG_APPEND = 1 << 3;
 
-  private UserParser mUserParser = new UserParser();
-  private TagParser mTagParser = new TagParser();
-  private PreferencesLoader loader;
+  private Parser mTagParser = new Parser();
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
     mMainActivity = this;
-    loader = new PreferencesLoader(this);
 
     initViews();
     initListener();
@@ -61,20 +54,9 @@ public class MainActivity extends AppCompatActivity {
   private void initViews() {
     mCovertedString.setMovementMethod(new ScrollingMovementMethod());
     mMentiontextview.setMovementMethod(new LinkMovementMethod());
+    mMentiontextview.setParserConverter(mTagParser);
 
-    int anInt = loader.getInt(R.string.selected_parser);
-    switch (anInt) {
-      case 0:
-      case 1:
-        mMentiontextview.setParserConverter(mUserParser);
-        break;
-      case 2:
-        mMentiontextview.setParserConverter(mTagParser);
-        break;
-      default:
-        mMentiontextview.setParserConverter(mUserParser);
-        break;
-    }
+    mMentiontextview.setText(str2);
   }
 
   private void initListener() {
@@ -141,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(TagList.getIntent(mMainActivity), REQUEST_TAG_APPEND);
         break;
       case R.id.insert:
-        mMentionedittext.insert("<a href='http://www.baidu.com/'>百度一下</a>");
+        mMentionedittext.insert("http://www.baidu.com/");
         break;
       case R.id.btn_show:
         CharSequence convertMetionString1 = mMentionedittext.getFormatCharSequence();
@@ -150,25 +132,9 @@ public class MainActivity extends AppCompatActivity {
     }
   }
 
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.menu, menu);
-    return true;
-  }
 
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    int id = item.getItemId();
+  String str2 =
+      "myfont效果：<tag id='100'>导演：轻口味</tag>副导演:重口味";
 
-    switch (id) {
-      case R.id.user_parser:
-        mMentiontextview.setParserConverter(mUserParser);
-        loader.saveInt(R.string.selected_parser, 1);
-        return true;
-      case R.id.tag_parser:
-        mMentiontextview.setParserConverter(mTagParser);
-        loader.saveInt(R.string.selected_parser, 2);
-        return true;
-    }
 
-    return super.onOptionsItemSelected(item);
-  }
 }

@@ -3,5 +3,4 @@
   <string name="userparser">UserParser</string>
   <string name="tagparser">TagParser</string>
 
-  <string name="selected_parser">selected_parser</string>
 </resources>

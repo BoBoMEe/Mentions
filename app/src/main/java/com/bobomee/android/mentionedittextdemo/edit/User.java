@@ -72,7 +72,7 @@ public class User  implements Serializable,InsertData {
 
   private class UserConvert implements FormatRange.FormatData {
 
-    public static final String USER_FORMART = "(@%s,id=%s)";
+    public static final String USER_FORMART = "&nbsp;<user id='%s' name='%s'>%s</user>&nbsp;";
     private final User user;
 
     public UserConvert(User user) {
@@ -80,7 +80,7 @@ public class User  implements Serializable,InsertData {
     }
 
     @Override public CharSequence formatCharSequence() {
-      return String.format(USER_FORMART, user.getUserName(), user.getUserId());
+      return String.format(USER_FORMART, user.getUserId(),user.getUserName(), user.getUserName());
     }
   }
 }

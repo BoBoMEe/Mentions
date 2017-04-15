@@ -19,12 +19,6 @@
 
     <activity android:name=".edit.TagList"/>
     <activity android:name=".edit.UserList"/>
-    <activity android:name=".TwoActivity">
-
-    </activity>
-    <activity android:name=".ThreeActivity">
-
-    </activity>
   </application>
 
 </manifest>
