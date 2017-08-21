@@ -16,6 +16,9 @@ import com.bobomee.android.mentions.text.listener.ParserConverter;
  * @since 2017/4/9 汪波 first commit
  */
 public class MentionTextView extends TextView {
+
+  private CharSequence mOriginalText;
+
   public MentionTextView(Context context) {
     this(context, null);
   }
@@ -34,6 +37,7 @@ public class MentionTextView extends TextView {
   }
 
   @Override public void setText(CharSequence text, BufferType type) {
+    mOriginalText = text;
     if (!TextUtils.isEmpty(text) && null != mParserConverter) {
       text = mParserConverter.convert(text);
     }
@@ -50,5 +54,9 @@ public class MentionTextView extends TextView {
 
   public void setParserConverter(ParserConverter parserConverter) {
     mParserConverter = parserConverter;
+  }
+
+  public CharSequence getOriginalText() {
+    return mOriginalText;
   }
 }
